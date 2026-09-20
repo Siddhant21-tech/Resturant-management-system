@@ -22,6 +22,7 @@ export async function fetchStations(branchId: string) {
 
 export async function fetchUsers(branchId: string) {
   const res = await fetch(`${API_BASE}/branches/${branchId}/users`);
+  if (!res.ok) throw new Error('Failed to load branch staff');
   return res.json();
 }
 

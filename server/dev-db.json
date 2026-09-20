@@ -6,7 +6,7 @@
       "slug": "the-velvet-bistro",
       "taxRate": 5,
       "currency": "₹",
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "rest-spice-02",
@@ -14,7 +14,7 @@
       "slug": "spice-symphony",
       "taxRate": 5,
       "currency": "₹",
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     }
   ],
   "branches": [
@@ -25,7 +25,7 @@
       "address": "42 Promenade Avenue, Connaught Place",
       "phone": "+91 98765 43210",
       "isActive": true,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "branch-midtown-02",
@@ -34,7 +34,7 @@
       "address": "Skydeck Level 14, Business Bay",
       "phone": "+91 98765 43211",
       "isActive": true,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     }
   ],
   "kitchenStations": [
@@ -44,7 +44,7 @@
       "name": "Main Kitchen",
       "colorCode": "#f97316",
       "sortOrder": 1,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "station-bar",
@@ -52,7 +52,7 @@
       "name": "Bar & Beverage",
       "colorCode": "#3b82f6",
       "sortOrder": 2,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "station-dessert",
@@ -60,7 +60,7 @@
       "name": "Dessert & Bakery",
       "colorCode": "#ec4899",
       "sortOrder": 3,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "station-starter",
@@ -68,7 +68,7 @@
       "name": "Starters & Pantry",
       "colorCode": "#10b981",
       "sortOrder": 4,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     }
   ],
   "tables": [
@@ -78,9 +78,9 @@
       "number": "Table 15",
       "capacity": 4,
       "zone": "Main Dining",
-      "status": "AVAILABLE",
-      "currentSessionId": null,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "status": "OCCUPIED",
+      "currentSessionId": "session-s10045",
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "table-01",
@@ -90,7 +90,7 @@
       "zone": "Window View",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "table-02",
@@ -100,7 +100,7 @@
       "zone": "Main Dining",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "table-03",
@@ -110,7 +110,7 @@
       "zone": "Family Booth",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "table-04",
@@ -120,7 +120,7 @@
       "zone": "Patio Terrace",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "table-05",
@@ -130,7 +130,7 @@
       "zone": "Patio Terrace",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "table-06",
@@ -140,7 +140,7 @@
       "zone": "VIP Lounge",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     }
   ],
   "users": [
@@ -152,7 +152,7 @@
       "email": "rahul@velvetbistro.com",
       "role": "WAITER",
       "pinCode": "1001",
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "user-sarah",
@@ -162,7 +162,7 @@
       "email": "sarah@velvetbistro.com",
       "role": "WAITER",
       "pinCode": "1002",
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "user-mario",
@@ -172,7 +172,7 @@
       "email": "mario@velvetbistro.com",
       "role": "KITCHEN_STAFF",
       "pinCode": "2001",
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "user-priya",
@@ -182,7 +182,7 @@
       "email": "priya@velvetbistro.com",
       "role": "CASHIER",
       "pinCode": "3001",
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     },
     {
       "id": "user-vikram",
@@ -192,7 +192,7 @@
       "email": "vikram@velvetbistro.com",
       "role": "MANAGER",
       "pinCode": "9999",
-      "createdAt": "2026-09-20T10:59:33.371Z"
+      "createdAt": "2026-09-20T12:08:24.222Z"
     }
   ],
   "menuCategories": [
@@ -345,31 +345,9 @@
       "waiterId": "user-rahul",
       "sessionCode": "S-10045",
       "guestCount": 2,
-      "status": "COMPLETED",
-      "startedAt": "2026-09-20T10:54:33.371Z",
-      "closedAt": "2026-09-20T11:10:11.648Z"
-    },
-    {
-      "id": "session_1789902716533_a29u",
-      "branchId": "branch-downtown-01",
-      "tableId": "table-15",
-      "waiterId": null,
-      "sessionCode": "S-98260",
-      "guestCount": 8,
-      "status": "COMPLETED",
-      "startedAt": "2026-09-20T11:11:56.533Z",
-      "closedAt": "2026-09-20T11:16:01.108Z"
-    },
-    {
-      "id": "session_1789902800354_czak",
-      "branchId": "branch-downtown-01",
-      "tableId": "table-01",
-      "waiterId": null,
-      "sessionCode": "S-27882",
-      "guestCount": 2,
-      "status": "COMPLETED",
-      "startedAt": "2026-09-20T11:13:20.354Z",
-      "closedAt": "2026-09-20T11:16:05.727Z"
+      "status": "ACTIVE",
+      "startedAt": "2026-09-20T12:03:24.222Z",
+      "closedAt": null
     }
   ],
   "orderRounds": [
@@ -380,48 +358,8 @@
       "source": "WAITER",
       "status": "ACCEPTED",
       "notes": "Customer requested extra crispy crust",
-      "submittedAt": "2026-09-20T10:58:53.371Z",
-      "acceptedAt": "2026-09-20T10:58:58.371Z"
-    },
-    {
-      "id": "round_1789902178123_y4rj",
-      "sessionId": "session-s10045",
-      "roundNumber": 2,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T11:02:58.123Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789902723474_k4kn",
-      "sessionId": "session_1789902716533_a29u",
-      "roundNumber": 1,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T11:12:03.474Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789902771236_mzl2",
-      "sessionId": "session_1789902716533_a29u",
-      "roundNumber": 2,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T11:12:51.236Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789902802580_6wdw",
-      "sessionId": "session_1789902800354_czak",
-      "roundNumber": 1,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T11:13:22.580Z",
-      "acceptedAt": null
+      "submittedAt": "2026-09-20T12:07:44.222Z",
+      "acceptedAt": "2026-09-20T12:07:49.222Z"
     }
   ],
   "orderItems": [
@@ -433,10 +371,10 @@
       "quantity": 2,
       "unitPrice": 300,
       "notes": "Extra crispy",
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T10:58:58.371Z",
-      "preparedAt": "2026-09-20T11:11:32.273Z",
-      "createdAt": "2026-09-20T10:58:53.371Z"
+      "status": "ACCEPTED",
+      "acceptedAt": "2026-09-20T12:07:49.222Z",
+      "preparedAt": null,
+      "createdAt": "2026-09-20T12:07:44.222Z"
     },
     {
       "id": "item-coke-1",
@@ -446,226 +384,31 @@
       "quantity": 2,
       "unitPrice": 80,
       "notes": "With ice and lemon",
-      "status": "READY",
-      "acceptedAt": "2026-09-20T10:58:58.371Z",
-      "preparedAt": "2026-09-20T11:16:27.626Z",
-      "createdAt": "2026-09-20T10:58:53.371Z"
-    },
-    {
-      "id": "item_1789902178123_0l1m",
-      "roundId": "round_1789902178123_y4rj",
-      "menuItemId": "menu-coffee",
-      "stationId": "station-bar",
-      "quantity": 1,
-      "unitPrice": 120,
-      "notes": null,
-      "status": "READY",
-      "acceptedAt": "2026-09-20T11:04:10.577Z",
-      "preparedAt": "2026-09-20T11:14:16.656Z",
-      "createdAt": "2026-09-20T11:02:58.123Z"
-    },
-    {
-      "id": "item_1789902723474_jhvb",
-      "roundId": "round_1789902723474_k4kn",
-      "menuItemId": "menu-burger",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 320,
-      "notes": null,
-      "status": "READY",
-      "acceptedAt": "2026-09-20T11:13:47.427Z",
-      "preparedAt": "2026-09-20T11:14:19.378Z",
-      "createdAt": "2026-09-20T11:12:03.474Z"
-    },
-    {
-      "id": "item_1789902723474_ufsd",
-      "roundId": "round_1789902723474_k4kn",
-      "menuItemId": "menu-coke",
-      "stationId": "station-bar",
-      "quantity": 1,
-      "unitPrice": 80,
-      "notes": null,
-      "status": "READY",
-      "acceptedAt": "2026-09-20T11:14:02.035Z",
-      "preparedAt": "2026-09-20T11:14:20.033Z",
-      "createdAt": "2026-09-20T11:12:03.474Z"
-    },
-    {
-      "id": "item_1789902723474_17nl",
-      "roundId": "round_1789902723474_k4kn",
-      "menuItemId": "menu-mojito",
-      "stationId": "station-bar",
-      "quantity": 1,
-      "unitPrice": 190,
-      "notes": null,
-      "status": "READY",
-      "acceptedAt": "2026-09-20T11:14:02.444Z",
-      "preparedAt": "2026-09-20T11:14:20.868Z",
-      "createdAt": "2026-09-20T11:12:03.474Z"
-    },
-    {
-      "id": "item_1789902771236_ji8e",
-      "roundId": "round_1789902771236_mzl2",
-      "menuItemId": "menu-truffle",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 380,
-      "notes": null,
-      "status": "READY",
-      "acceptedAt": "2026-09-20T11:13:54.819Z",
-      "preparedAt": "2026-09-20T11:15:05.698Z",
-      "createdAt": "2026-09-20T11:12:51.236Z"
-    },
-    {
-      "id": "item_1789902771236_lnxt",
-      "roundId": "round_1789902771236_mzl2",
-      "menuItemId": "menu-bruschetta",
-      "stationId": "station-starter",
-      "quantity": 1,
-      "unitPrice": 180,
-      "notes": null,
-      "status": "READY",
-      "acceptedAt": "2026-09-20T11:14:03.264Z",
-      "preparedAt": "2026-09-20T11:15:05.120Z",
-      "createdAt": "2026-09-20T11:12:51.236Z"
-    },
-    {
-      "id": "item_1789902771236_8eil",
-      "roundId": "round_1789902771236_mzl2",
-      "menuItemId": "menu-margherita",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 300,
-      "notes": null,
-      "status": "READY",
-      "acceptedAt": "2026-09-20T11:13:50.802Z",
-      "preparedAt": "2026-09-20T11:15:04.585Z",
-      "createdAt": "2026-09-20T11:12:51.236Z"
-    },
-    {
-      "id": "item_1789902802580_qpk4",
-      "roundId": "round_1789902802580_6wdw",
-      "menuItemId": "menu-margherita",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 300,
-      "notes": null,
-      "status": "ACCEPTED",
-      "acceptedAt": "2026-09-20T11:13:51.274Z",
+      "status": "PREPARING",
+      "acceptedAt": "2026-09-20T12:07:49.222Z",
       "preparedAt": null,
-      "createdAt": "2026-09-20T11:13:22.580Z"
-    },
-    {
-      "id": "item_1789902802580_6l3l",
-      "roundId": "round_1789902802580_6wdw",
-      "menuItemId": "menu-burger",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 320,
-      "notes": null,
-      "status": "ACCEPTED",
-      "acceptedAt": "2026-09-20T11:13:52.299Z",
-      "preparedAt": null,
-      "createdAt": "2026-09-20T11:13:22.580Z"
-    },
-    {
-      "id": "item_1789902802580_hqum",
-      "roundId": "round_1789902802580_6wdw",
-      "menuItemId": "menu-truffle",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 380,
-      "notes": null,
-      "status": "ACCEPTED",
-      "acceptedAt": "2026-09-20T11:13:53.435Z",
-      "preparedAt": null,
-      "createdAt": "2026-09-20T11:13:22.580Z"
-    },
-    {
-      "id": "item_1789902802580_2en3",
-      "roundId": "round_1789902802580_6wdw",
-      "menuItemId": "menu-coke",
-      "stationId": "station-bar",
-      "quantity": 1,
-      "unitPrice": 80,
-      "notes": null,
-      "status": "PENDING",
-      "acceptedAt": null,
-      "preparedAt": null,
-      "createdAt": "2026-09-20T11:13:22.580Z"
-    },
-    {
-      "id": "item_1789902802580_lgmd",
-      "roundId": "round_1789902802580_6wdw",
-      "menuItemId": "menu-coffee",
-      "stationId": "station-bar",
-      "quantity": 1,
-      "unitPrice": 120,
-      "notes": null,
-      "status": "PENDING",
-      "acceptedAt": null,
-      "preparedAt": null,
-      "createdAt": "2026-09-20T11:13:22.580Z"
+      "createdAt": "2026-09-20T12:07:44.222Z"
     }
   ],
   "bills": [
     {
-      "id": "bill_1789902279511_we47",
+      "id": "bill_1789906450963_jy4r",
       "sessionId": "session-s10045",
       "version": 1,
-      "invoiceNumber": "INV-688918",
-      "subtotal": 880,
-      "taxAmount": 44,
+      "invoiceNumber": "INV-747360",
+      "subtotal": 760,
+      "taxAmount": 38,
       "discountAmount": 0,
-      "finalAmount": 924,
-      "status": "PAID",
-      "createdAt": "2026-09-20T11:04:39.511Z",
-      "updatedAt": "2026-09-20T11:10:11.646Z"
-    },
-    {
-      "id": "bill_1789902567111_yy0a",
-      "sessionId": "session-s10045",
-      "version": 2,
-      "invoiceNumber": "INV-688918",
-      "subtotal": 880,
-      "taxAmount": 44,
-      "discountAmount": 50,
-      "finalAmount": 874,
+      "finalAmount": 798,
       "status": "UNPAID",
-      "createdAt": "2026-09-20T11:09:27.111Z",
-      "updatedAt": "2026-09-20T11:09:27.111Z"
-    },
-    {
-      "id": "bill_1789902728159_dmut",
-      "sessionId": "session_1789902716533_a29u",
-      "version": 1,
-      "invoiceNumber": "INV-657342",
-      "subtotal": 590,
-      "taxAmount": 29.5,
-      "discountAmount": 0,
-      "finalAmount": 619.5,
-      "status": "PAID",
-      "createdAt": "2026-09-20T11:12:08.159Z",
-      "updatedAt": "2026-09-20T11:16:01.106Z"
-    },
-    {
-      "id": "bill_1789902869572_ywfa",
-      "sessionId": "session_1789902800354_czak",
-      "version": 1,
-      "invoiceNumber": "INV-898650",
-      "subtotal": 1200,
-      "taxAmount": 60,
-      "discountAmount": 0,
-      "finalAmount": 1260,
-      "status": "PAID",
-      "createdAt": "2026-09-20T11:14:29.572Z",
-      "updatedAt": "2026-09-20T11:16:05.725Z"
+      "createdAt": "2026-09-20T12:14:10.963Z",
+      "updatedAt": "2026-09-20T12:14:10.963Z"
     }
   ],
   "billItems": [
     {
-      "id": "bitem_1789902279511_r8sv",
-      "billId": "bill_1789902279511_we47",
+      "id": "bitem_1789906450963_9kb0",
+      "billId": "bill_1789906450963_jy4r",
       "menuItemId": "menu-margherita",
       "name": "Artisan Wood-Fired Margherita",
       "quantity": 2,
@@ -673,203 +416,16 @@
       "totalPrice": 600
     },
     {
-      "id": "bitem_1789902279511_n3ug",
-      "billId": "bill_1789902279511_we47",
+      "id": "bitem_1789906450963_p126",
+      "billId": "bill_1789906450963_jy4r",
       "menuItemId": "menu-coke",
       "name": "Chilled Coca Cola",
       "quantity": 2,
       "unitPrice": 80,
       "totalPrice": 160
-    },
-    {
-      "id": "bitem_1789902279511_b7ns",
-      "billId": "bill_1789902279511_we47",
-      "menuItemId": "menu-coffee",
-      "name": "Specialty Roasted Coffee",
-      "quantity": 1,
-      "unitPrice": 120,
-      "totalPrice": 120
-    },
-    {
-      "id": "bitem_1789902567111_y580",
-      "billId": "bill_1789902567111_yy0a",
-      "menuItemId": "menu-margherita",
-      "name": "Artisan Wood-Fired Margherita",
-      "quantity": 2,
-      "unitPrice": 300,
-      "totalPrice": 600
-    },
-    {
-      "id": "bitem_1789902567111_740p",
-      "billId": "bill_1789902567111_yy0a",
-      "menuItemId": "menu-coke",
-      "name": "Chilled Coca Cola",
-      "quantity": 2,
-      "unitPrice": 80,
-      "totalPrice": 160
-    },
-    {
-      "id": "bitem_1789902567111_1l2w",
-      "billId": "bill_1789902567111_yy0a",
-      "menuItemId": "menu-coffee",
-      "name": "Specialty Roasted Coffee",
-      "quantity": 1,
-      "unitPrice": 120,
-      "totalPrice": 120
-    },
-    {
-      "id": "bitem_1789902728159_bk92",
-      "billId": "bill_1789902728159_dmut",
-      "menuItemId": "menu-burger",
-      "name": "Smoked Prime Burger",
-      "quantity": 1,
-      "unitPrice": 320,
-      "totalPrice": 320
-    },
-    {
-      "id": "bitem_1789902728159_ckcr",
-      "billId": "bill_1789902728159_dmut",
-      "menuItemId": "menu-coke",
-      "name": "Chilled Coca Cola",
-      "quantity": 1,
-      "unitPrice": 80,
-      "totalPrice": 80
-    },
-    {
-      "id": "bitem_1789902728159_wavj",
-      "billId": "bill_1789902728159_dmut",
-      "menuItemId": "menu-mojito",
-      "name": "Berry Mojito Mocktail",
-      "quantity": 1,
-      "unitPrice": 190,
-      "totalPrice": 190
-    },
-    {
-      "id": "bitem_1789902869572_mx9n",
-      "billId": "bill_1789902869572_ywfa",
-      "menuItemId": "menu-margherita",
-      "name": "Artisan Wood-Fired Margherita",
-      "quantity": 1,
-      "unitPrice": 300,
-      "totalPrice": 300
-    },
-    {
-      "id": "bitem_1789902869573_lic8",
-      "billId": "bill_1789902869572_ywfa",
-      "menuItemId": "menu-burger",
-      "name": "Smoked Prime Burger",
-      "quantity": 1,
-      "unitPrice": 320,
-      "totalPrice": 320
-    },
-    {
-      "id": "bitem_1789902869573_naop",
-      "billId": "bill_1789902869572_ywfa",
-      "menuItemId": "menu-truffle",
-      "name": "Truffle Mushroom Pizza",
-      "quantity": 1,
-      "unitPrice": 380,
-      "totalPrice": 380
-    },
-    {
-      "id": "bitem_1789902869573_bs55",
-      "billId": "bill_1789902869572_ywfa",
-      "menuItemId": "menu-coke",
-      "name": "Chilled Coca Cola",
-      "quantity": 1,
-      "unitPrice": 80,
-      "totalPrice": 80
-    },
-    {
-      "id": "bitem_1789902869573_r2qz",
-      "billId": "bill_1789902869572_ywfa",
-      "menuItemId": "menu-coffee",
-      "name": "Specialty Roasted Coffee",
-      "quantity": 1,
-      "unitPrice": 120,
-      "totalPrice": 120
     }
   ],
-  "billAdjustments": [
-    {
-      "id": "badj_1789902567111_f1pz",
-      "billId": "bill_1789902567111_yy0a",
-      "type": "DISCOUNT",
-      "userId": "Cashier Priya",
-      "reason": "Customer courtesy coupon",
-      "oldValue": "₹924 (v1)",
-      "newValue": "₹874 (v2)",
-      "createdAt": "2026-09-20T11:09:27.111Z"
-    }
-  ],
-  "payments": [
-    {
-      "id": "pay_1789902611644_zfxd",
-      "billId": "bill_1789902279511_we47",
-      "amount": 924,
-      "method": "CASH",
-      "referenceNumber": "CASH-611644",
-      "receivedByUserId": "Cashier Priya",
-      "status": "SUCCESS",
-      "createdAt": "2026-09-20T11:10:11.644Z"
-    },
-    {
-      "id": "pay_1789902961104_fh9c",
-      "billId": "bill_1789902728159_dmut",
-      "amount": 619.5,
-      "method": "UPI",
-      "referenceNumber": "UPI-961104",
-      "receivedByUserId": "Cashier Priya",
-      "status": "SUCCESS",
-      "createdAt": "2026-09-20T11:16:01.104Z"
-    },
-    {
-      "id": "pay_1789902965723_9t5s",
-      "billId": "bill_1789902869572_ywfa",
-      "amount": 1260,
-      "method": "UPI",
-      "referenceNumber": "UPI-965723",
-      "receivedByUserId": "Cashier Priya",
-      "status": "SUCCESS",
-      "createdAt": "2026-09-20T11:16:05.723Z"
-    }
-  ],
-  "auditLogs": [
-    {
-      "id": "audit_1789902567114_eu3j",
-      "restaurantId": "rest-bistro-01",
-      "branchId": "branch-downtown-01",
-      "userId": "Cashier Priya",
-      "action": "BILL_ADJUSTED_V2",
-      "detailsJson": "{\"invoiceNumber\":\"INV-688918\",\"oldAmount\":924,\"newAmount\":874,\"reason\":\"Customer courtesy coupon\",\"type\":\"DISCOUNT\"}",
-      "createdAt": "2026-09-20T11:09:27.114Z"
-    },
-    {
-      "id": "audit_1789902611669_hvw7",
-      "restaurantId": "rest-bistro-01",
-      "branchId": "branch-downtown-01",
-      "userId": "Cashier Priya",
-      "action": "PAYMENT_RECEIVED",
-      "detailsJson": "{\"invoiceNumber\":\"INV-688918\",\"amount\":924,\"method\":\"CASH\",\"table\":\"Table 15\"}",
-      "createdAt": "2026-09-20T11:10:11.669Z"
-    },
-    {
-      "id": "audit_1789902961134_kx8j",
-      "restaurantId": "rest-bistro-01",
-      "branchId": "branch-downtown-01",
-      "userId": "Cashier Priya",
-      "action": "PAYMENT_RECEIVED",
-      "detailsJson": "{\"invoiceNumber\":\"INV-657342\",\"amount\":619.5,\"method\":\"UPI\",\"table\":\"Table 15\"}",
-      "createdAt": "2026-09-20T11:16:01.134Z"
-    },
-    {
-      "id": "audit_1789902965754_wfma",
-      "restaurantId": "rest-bistro-01",
-      "branchId": "branch-downtown-01",
-      "userId": "Cashier Priya",
-      "action": "PAYMENT_RECEIVED",
-      "detailsJson": "{\"invoiceNumber\":\"INV-898650\",\"amount\":1260,\"method\":\"UPI\",\"table\":\"Table 01\"}",
-      "createdAt": "2026-09-20T11:16:05.754Z"
-    }
-  ]
+  "billAdjustments": [],
+  "payments": [],
+  "auditLogs": []
 }

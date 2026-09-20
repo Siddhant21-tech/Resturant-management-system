@@ -10,6 +10,7 @@ export interface Restaurant {
   id: string;
   name: string;
   slug: string;
+  logoUrl?: string | null;
   taxRate: number;
   currency: string;
   branches: Branch[];

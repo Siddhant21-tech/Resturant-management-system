@@ -5,20 +5,24 @@ import { KitchenView } from './views/KitchenView';
 import { CashierView } from './views/CashierView';
 import { CustomerQRView } from './views/CustomerQRView';
 import { AdminView } from './views/AdminView';
-import { Restaurant, Branch } from './types';
-import { fetchRestaurants } from './services/api';
+import { Restaurant, Branch, User } from './types';
+import { fetchRestaurants, fetchUsers } from './services/api';
 import { getSocket, playNotificationSound } from './services/socket';
 import {
   getOfflineQueue,
   flushOfflineQueue,
 } from './services/offlineQueue';
 import { Bell, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { LoginView } from './views/LoginView';
 
 export const App: React.FC = () => {
   const [currentRole, setRole] = useState<ActiveRole>('waiter');
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
+  const [staffUsers, setStaffUsers] = useState<User[]>([]);
+  const [authenticatedUser, setAuthenticatedUser] = useState<User | null>(null);
+  const [isLoadingStaff, setIsLoadingStaff] = useState(false);
 
   // Offline Simulation State
   const [isSimulatedOffline, setIsSimulatedOffline] = useState(false);
@@ -85,6 +89,16 @@ export const App: React.FC = () => {
     };
     init();
   }, []);
+
+  useEffect(() => {
+    if (!selectedBranch) return;
+
+    setIsLoadingStaff(true);
+    fetchUsers(selectedBranch.id)
+      .then(setStaffUsers)
+      .catch((err) => console.error('Failed to fetch staff:', err))
+      .finally(() => setIsLoadingStaff(false));
+  }, [selectedBranch]);
 
   // Initialize Socket.IO Listeners
   useEffect(() => {
@@ -179,6 +193,21 @@ export const App: React.FC = () => {
           <p className="text-sm text-slate-400">Connecting to Restaurant Management Engine...</p>
         </div>
       </div>
+    );
+  }
+
+  if (!authenticatedUser) {
+    return (
+      <LoginView
+        restaurant={selectedRestaurant}
+        branch={selectedBranch}
+        users={staffUsers}
+        isLoading={isLoadingStaff}
+        onLogin={(user, role) => {
+          setAuthenticatedUser(user);
+          setRole(role === 'manager' ? 'admin' : role);
+        }}
+      />
     );
   }
 
