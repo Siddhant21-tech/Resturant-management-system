@@ -38,3 +38,20 @@ exports.menuRouter.patch('/menu/items/:id/availability', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+exports.menuRouter.patch('/menu/items/:id', async (req, res) => {
+    try {
+        const { name, price, isAvailable } = req.body;
+        const data = {};
+        if (name !== undefined)
+            data.name = String(name).trim();
+        if (price !== undefined)
+            data.price = Number(price);
+        if (isAvailable !== undefined)
+            data.isAvailable = Boolean(isAvailable);
+        const item = await db_1.prisma.menuItem.update({ where: { id: req.params.id }, data });
+        res.json(item);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});

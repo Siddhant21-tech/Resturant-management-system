@@ -6,7 +6,7 @@
       "slug": "the-velvet-bistro",
       "taxRate": 5,
       "currency": "₹",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "rest-spice-02",
@@ -14,7 +14,7 @@
       "slug": "spice-symphony",
       "taxRate": 5,
       "currency": "₹",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     }
   ],
   "branches": [
@@ -25,7 +25,7 @@
       "address": "42 Promenade Avenue, Connaught Place",
       "phone": "+91 98765 43210",
       "isActive": true,
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "branch-midtown-02",
@@ -34,7 +34,7 @@
       "address": "Skydeck Level 14, Business Bay",
       "phone": "+91 98765 43211",
       "isActive": true,
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     }
   ],
   "kitchenStations": [
@@ -44,7 +44,7 @@
       "name": "Main Kitchen",
       "colorCode": "#f97316",
       "sortOrder": 1,
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "station-bar",
@@ -52,7 +52,7 @@
       "name": "Bar & Beverage",
       "colorCode": "#3b82f6",
       "sortOrder": 2,
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "station-dessert",
@@ -60,7 +60,7 @@
       "name": "Dessert & Bakery",
       "colorCode": "#ec4899",
       "sortOrder": 3,
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "station-starter",
@@ -68,7 +68,7 @@
       "name": "Starters & Pantry",
       "colorCode": "#10b981",
       "sortOrder": 4,
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     }
   ],
   "tables": [
@@ -78,9 +78,9 @@
       "number": "Table 15",
       "capacity": 4,
       "zone": "Main Dining",
-      "status": "BILL_REQUESTED",
-      "currentSessionId": "session-s10045",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "status": "AVAILABLE",
+      "currentSessionId": null,
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "table-01",
@@ -88,9 +88,9 @@
       "number": "Table 01",
       "capacity": 2,
       "zone": "Window View",
-      "status": "BILL_REQUESTED",
-      "currentSessionId": "session_1789910423583_mka7",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "status": "AVAILABLE",
+      "currentSessionId": null,
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "table-02",
@@ -98,9 +98,9 @@
       "number": "Table 02",
       "capacity": 4,
       "zone": "Main Dining",
-      "status": "BILL_REQUESTED",
-      "currentSessionId": "session_1789911298579_txev",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "status": "AVAILABLE",
+      "currentSessionId": null,
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "table-03",
@@ -108,9 +108,9 @@
       "number": "Table 03",
       "capacity": 6,
       "zone": "Family Booth",
-      "status": "OCCUPIED",
-      "currentSessionId": "session_1789911893243_en9f",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "status": "AVAILABLE",
+      "currentSessionId": null,
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "table-04",
@@ -120,7 +120,7 @@
       "zone": "Patio Terrace",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "table-05",
@@ -128,9 +128,9 @@
       "number": "Table 05",
       "capacity": 4,
       "zone": "Patio Terrace",
-      "status": "OCCUPIED",
-      "currentSessionId": "session_1789911943739_94gi",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "status": "AVAILABLE",
+      "currentSessionId": null,
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "table-06",
@@ -140,7 +140,7 @@
       "zone": "VIP Lounge",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     }
   ],
   "users": [
@@ -152,7 +152,7 @@
       "email": "rahul@velvetbistro.com",
       "role": "WAITER",
       "pinCode": "1001",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "user-sarah",
@@ -162,7 +162,7 @@
       "email": "sarah@velvetbistro.com",
       "role": "WAITER",
       "pinCode": "1002",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "user-mario",
@@ -172,7 +172,7 @@
       "email": "mario@velvetbistro.com",
       "role": "KITCHEN_STAFF",
       "pinCode": "2001",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "user-priya",
@@ -182,7 +182,7 @@
       "email": "priya@velvetbistro.com",
       "role": "CASHIER",
       "pinCode": "3001",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     },
     {
       "id": "user-vikram",
@@ -192,7 +192,7 @@
       "email": "vikram@velvetbistro.com",
       "role": "MANAGER",
       "pinCode": "9999",
-      "createdAt": "2026-09-20T13:19:35.362Z"
+      "createdAt": "2026-09-20T14:24:21.865Z"
     }
   ],
   "menuCategories": [
@@ -345,53 +345,9 @@
       "waiterId": "user-rahul",
       "sessionCode": "S-10045",
       "guestCount": 2,
-      "status": "BILL_REQUESTED",
-      "startedAt": "2026-09-20T13:14:35.362Z",
-      "closedAt": null
-    },
-    {
-      "id": "session_1789910423583_mka7",
-      "branchId": "branch-downtown-01",
-      "tableId": "table-01",
-      "waiterId": null,
-      "sessionCode": "S-84508",
-      "guestCount": 2,
-      "status": "BILL_REQUESTED",
-      "startedAt": "2026-09-20T13:20:23.583Z",
-      "closedAt": null
-    },
-    {
-      "id": "session_1789911298579_txev",
-      "branchId": "branch-downtown-01",
-      "tableId": "table-02",
-      "waiterId": null,
-      "sessionCode": "S-91439",
-      "guestCount": 4,
-      "status": "BILL_REQUESTED",
-      "startedAt": "2026-09-20T13:34:58.579Z",
-      "closedAt": null
-    },
-    {
-      "id": "session_1789911893243_en9f",
-      "branchId": "branch-downtown-01",
-      "tableId": "table-03",
-      "waiterId": null,
-      "sessionCode": "S-47923",
-      "guestCount": 2,
-      "status": "ACTIVE",
-      "startedAt": "2026-09-20T13:44:53.243Z",
-      "closedAt": null
-    },
-    {
-      "id": "session_1789911943739_94gi",
-      "branchId": "branch-downtown-01",
-      "tableId": "table-05",
-      "waiterId": null,
-      "sessionCode": "S-47910",
-      "guestCount": 6,
-      "status": "ACTIVE",
-      "startedAt": "2026-09-20T13:45:43.739Z",
-      "closedAt": null
+      "status": "COMPLETED",
+      "startedAt": "2026-09-20T14:19:21.865Z",
+      "closedAt": "2026-09-20T14:27:21.225Z"
     }
   ],
   "orderRounds": [
@@ -402,108 +358,8 @@
       "source": "WAITER",
       "status": "ACCEPTED",
       "notes": "Customer requested extra crispy crust",
-      "submittedAt": "2026-09-20T13:18:55.362Z",
-      "acceptedAt": "2026-09-20T13:19:00.362Z"
-    },
-    {
-      "id": "round_1789910430026_a47e",
-      "sessionId": "session_1789910423583_mka7",
-      "roundNumber": 1,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:20:30.026Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789910445178_vrgf",
-      "sessionId": "session_1789910423583_mka7",
-      "roundNumber": 2,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:20:45.178Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789911303306_akfx",
-      "sessionId": "session_1789911298579_txev",
-      "roundNumber": 1,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:35:03.306Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789911314603_jmy2",
-      "sessionId": "session_1789911298579_txev",
-      "roundNumber": 2,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:35:14.603Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789911900026_xukv",
-      "sessionId": "session_1789911893243_en9f",
-      "roundNumber": 1,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:45:00.026Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789911911642_xaxg",
-      "sessionId": "session_1789911893243_en9f",
-      "roundNumber": 2,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:45:11.642Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789911939322_akt7",
-      "sessionId": "session_1789911893243_en9f",
-      "roundNumber": 3,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:45:39.322Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789911948482_vjga",
-      "sessionId": "session_1789911943739_94gi",
-      "roundNumber": 1,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:45:48.482Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789911954129_3d07",
-      "sessionId": "session_1789911943739_94gi",
-      "roundNumber": 2,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:45:54.129Z",
-      "acceptedAt": null
-    },
-    {
-      "id": "round_1789911958593_hior",
-      "sessionId": "session_1789911943739_94gi",
-      "roundNumber": 3,
-      "source": "WAITER",
-      "status": "SUBMITTED",
-      "notes": null,
-      "submittedAt": "2026-09-20T13:45:58.593Z",
-      "acceptedAt": null
+      "submittedAt": "2026-09-20T14:23:41.865Z",
+      "acceptedAt": "2026-09-20T14:23:46.865Z"
     }
   ],
   "orderItems": [
@@ -515,10 +371,10 @@
       "quantity": 2,
       "unitPrice": 300,
       "notes": "Extra crispy",
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:19:00.362Z",
-      "preparedAt": "2026-09-20T13:21:30.674Z",
-      "createdAt": "2026-09-20T13:18:55.362Z"
+      "status": "ACCEPTED",
+      "acceptedAt": "2026-09-20T14:23:46.865Z",
+      "preparedAt": null,
+      "createdAt": "2026-09-20T14:23:41.865Z"
     },
     {
       "id": "item-coke-1",
@@ -528,421 +384,31 @@
       "quantity": 2,
       "unitPrice": 80,
       "notes": "With ice and lemon",
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:19:00.362Z",
-      "preparedAt": "2026-09-20T13:23:00.729Z",
-      "createdAt": "2026-09-20T13:18:55.362Z"
-    },
-    {
-      "id": "item_1789910430026_e5ne",
-      "roundId": "round_1789910430026_a47e",
-      "menuItemId": "menu-margherita",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 300,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:21:07.620Z",
-      "preparedAt": "2026-09-20T13:21:16.842Z",
-      "createdAt": "2026-09-20T13:20:30.026Z"
-    },
-    {
-      "id": "item_1789910430026_v3gj",
-      "roundId": "round_1789910430026_a47e",
-      "menuItemId": "menu-burger",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 320,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:21:07.623Z",
-      "preparedAt": "2026-09-20T13:21:16.846Z",
-      "createdAt": "2026-09-20T13:20:30.026Z"
-    },
-    {
-      "id": "item_1789910445178_xtu4",
-      "roundId": "round_1789910445178_vrgf",
-      "menuItemId": "menu-bruschetta",
-      "stationId": "station-starter",
-      "quantity": 1,
-      "unitPrice": 180,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:21:02.359Z",
-      "preparedAt": "2026-09-20T13:23:03.033Z",
-      "createdAt": "2026-09-20T13:20:45.178Z"
-    },
-    {
-      "id": "item_1789910445178_3uwd",
-      "roundId": "round_1789910445178_vrgf",
-      "menuItemId": "menu-truffle",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 380,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:21:02.362Z",
-      "preparedAt": "2026-09-20T13:21:26.460Z",
-      "createdAt": "2026-09-20T13:20:45.178Z"
-    },
-    {
-      "id": "item_1789910445178_fqnx",
-      "roundId": "round_1789910445178_vrgf",
-      "menuItemId": "menu-burger",
-      "stationId": "station-main",
-      "quantity": 2,
-      "unitPrice": 320,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:21:02.375Z",
-      "preparedAt": "2026-09-20T13:21:26.463Z",
-      "createdAt": "2026-09-20T13:20:45.178Z"
-    },
-    {
-      "id": "item_1789910445178_yv27",
-      "roundId": "round_1789910445178_vrgf",
-      "menuItemId": "menu-margherita",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 300,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:21:02.389Z",
-      "preparedAt": "2026-09-20T13:21:26.478Z",
-      "createdAt": "2026-09-20T13:20:45.178Z"
-    },
-    {
-      "id": "item_1789911303306_t29d",
-      "roundId": "round_1789911303306_akfx",
-      "menuItemId": "menu-truffle",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 380,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:35:28.117Z",
-      "preparedAt": "2026-09-20T13:35:30.238Z",
-      "createdAt": "2026-09-20T13:35:03.306Z"
-    },
-    {
-      "id": "item_1789911303306_dz0c",
-      "roundId": "round_1789911303306_akfx",
-      "menuItemId": "menu-bruschetta",
-      "stationId": "station-starter",
-      "quantity": 1,
-      "unitPrice": 180,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:35:28.121Z",
-      "preparedAt": "2026-09-20T13:35:30.241Z",
-      "createdAt": "2026-09-20T13:35:03.306Z"
-    },
-    {
-      "id": "item_1789911303306_gpo7",
-      "roundId": "round_1789911303306_akfx",
-      "menuItemId": "menu-coffee",
-      "stationId": "station-bar",
-      "quantity": 1,
-      "unitPrice": 120,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:35:28.135Z",
-      "preparedAt": "2026-09-20T13:35:30.256Z",
-      "createdAt": "2026-09-20T13:35:03.306Z"
-    },
-    {
-      "id": "item_1789911314603_7l5b",
-      "roundId": "round_1789911314603_jmy2",
-      "menuItemId": "menu-bruschetta",
-      "stationId": "station-starter",
-      "quantity": 3,
-      "unitPrice": 180,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:35:26.926Z",
-      "preparedAt": "2026-09-20T13:35:29.412Z",
-      "createdAt": "2026-09-20T13:35:14.603Z"
-    },
-    {
-      "id": "item_1789911314603_5omo",
-      "roundId": "round_1789911314603_jmy2",
-      "menuItemId": "menu-burger",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 320,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:35:26.928Z",
-      "preparedAt": "2026-09-20T13:35:29.416Z",
-      "createdAt": "2026-09-20T13:35:14.603Z"
-    },
-    {
-      "id": "item_1789911314603_vb2o",
-      "roundId": "round_1789911314603_jmy2",
-      "menuItemId": "menu-coffee",
-      "stationId": "station-bar",
-      "quantity": 3,
-      "unitPrice": 120,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:35:26.945Z",
-      "preparedAt": "2026-09-20T13:35:29.429Z",
-      "createdAt": "2026-09-20T13:35:14.603Z"
-    },
-    {
-      "id": "item_1789911900026_qvtq",
-      "roundId": "round_1789911900026_xukv",
-      "menuItemId": "menu-bruschetta",
-      "stationId": "station-starter",
-      "quantity": 1,
-      "unitPrice": 180,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:34.333Z",
-      "preparedAt": "2026-09-20T13:49:10.566Z",
-      "createdAt": "2026-09-20T13:45:00.026Z"
-    },
-    {
-      "id": "item_1789911900026_e9f8",
-      "roundId": "round_1789911900026_xukv",
-      "menuItemId": "menu-coffee",
-      "stationId": "station-bar",
-      "quantity": 1,
-      "unitPrice": 120,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:34.338Z",
-      "preparedAt": "2026-09-20T13:49:10.575Z",
-      "createdAt": "2026-09-20T13:45:00.026Z"
-    },
-    {
-      "id": "item_1789911900026_wuoh",
-      "roundId": "round_1789911900026_xukv",
-      "menuItemId": "menu-lavacake",
-      "stationId": "station-dessert",
-      "quantity": 1,
-      "unitPrice": 240,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:34.354Z",
-      "preparedAt": "2026-09-20T13:49:10.562Z",
-      "createdAt": "2026-09-20T13:45:00.026Z"
-    },
-    {
-      "id": "item_1789911911642_uf5o",
-      "roundId": "round_1789911911642_xaxg",
-      "menuItemId": "menu-burger",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 320,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:43.739Z",
-      "preparedAt": "2026-09-20T13:48:45.036Z",
-      "createdAt": "2026-09-20T13:45:11.642Z"
-    },
-    {
-      "id": "item_1789911911642_u06w",
-      "roundId": "round_1789911911642_xaxg",
-      "menuItemId": "menu-margherita",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 300,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:43.744Z",
-      "preparedAt": "2026-09-20T13:48:45.040Z",
-      "createdAt": "2026-09-20T13:45:11.642Z"
-    },
-    {
-      "id": "item_1789911911642_55ec",
-      "roundId": "round_1789911911642_xaxg",
-      "menuItemId": "menu-coffee",
-      "stationId": "station-bar",
-      "quantity": 2,
-      "unitPrice": 120,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:43.756Z",
-      "preparedAt": "2026-09-20T13:48:45.054Z",
-      "createdAt": "2026-09-20T13:45:11.642Z"
-    },
-    {
-      "id": "item_1789911911642_fv12",
-      "roundId": "round_1789911911642_xaxg",
-      "menuItemId": "menu-lavacake",
-      "stationId": "station-dessert",
-      "quantity": 2,
-      "unitPrice": 240,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:43.770Z",
-      "preparedAt": "2026-09-20T13:48:45.064Z",
-      "createdAt": "2026-09-20T13:45:11.642Z"
-    },
-    {
-      "id": "item_1789911939322_71cs",
-      "roundId": "round_1789911939322_akt7",
-      "menuItemId": "menu-truffle",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 380,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:38.938Z",
-      "preparedAt": "2026-09-20T13:49:09.417Z",
-      "createdAt": "2026-09-20T13:45:39.322Z"
-    },
-    {
-      "id": "item_1789911948482_u4w2",
-      "roundId": "round_1789911948482_vjga",
-      "menuItemId": "menu-margherita",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 300,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:39.677Z",
-      "preparedAt": "2026-09-20T13:49:07.372Z",
-      "createdAt": "2026-09-20T13:45:48.482Z"
-    },
-    {
-      "id": "item_1789911948482_dmau",
-      "roundId": "round_1789911948482_vjga",
-      "menuItemId": "menu-burger",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 320,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:39.679Z",
-      "preparedAt": "2026-09-20T13:49:07.376Z",
-      "createdAt": "2026-09-20T13:45:48.482Z"
-    },
-    {
-      "id": "item_1789911948482_s4m9",
-      "roundId": "round_1789911948482_vjga",
-      "menuItemId": "menu-coke",
-      "stationId": "station-bar",
-      "quantity": 1,
-      "unitPrice": 80,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:39.694Z",
-      "preparedAt": "2026-09-20T13:49:07.392Z",
-      "createdAt": "2026-09-20T13:45:48.482Z"
-    },
-    {
-      "id": "item_1789911954129_dr7x",
-      "roundId": "round_1789911954129_3d07",
-      "menuItemId": "menu-truffle",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 380,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:40.947Z",
-      "preparedAt": "2026-09-20T13:49:13.874Z",
-      "createdAt": "2026-09-20T13:45:54.129Z"
-    },
-    {
-      "id": "item_1789911954129_rys4",
-      "roundId": "round_1789911954129_3d07",
-      "menuItemId": "menu-bruschetta",
-      "stationId": "station-starter",
-      "quantity": 1,
-      "unitPrice": 180,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:40.950Z",
-      "preparedAt": "2026-09-20T13:49:13.877Z",
-      "createdAt": "2026-09-20T13:45:54.129Z"
-    },
-    {
-      "id": "item_1789911958593_2dw2",
-      "roundId": "round_1789911958593_hior",
-      "menuItemId": "menu-burger",
-      "stationId": "station-main",
-      "quantity": 1,
-      "unitPrice": 320,
-      "notes": null,
-      "status": "SERVED",
-      "acceptedAt": "2026-09-20T13:48:40.586Z",
-      "preparedAt": "2026-09-20T13:49:12.281Z",
-      "createdAt": "2026-09-20T13:45:58.593Z"
+      "status": "PREPARING",
+      "acceptedAt": "2026-09-20T14:23:46.865Z",
+      "preparedAt": null,
+      "createdAt": "2026-09-20T14:23:41.865Z"
     }
   ],
   "bills": [
     {
-      "id": "bill_1789912170349_zw7g",
+      "id": "bill_1789914422732_6bbi",
       "sessionId": "session-s10045",
       "version": 1,
-      "invoiceNumber": "INV-609122",
+      "invoiceNumber": "INV-420643",
       "subtotal": 760,
       "taxAmount": 38,
       "discountAmount": 0,
       "finalAmount": 798,
-      "status": "UNPAID",
-      "createdAt": "2026-09-20T13:49:30.349Z",
-      "updatedAt": "2026-09-20T13:49:30.349Z"
-    },
-    {
-      "id": "bill_1789912170357_egja",
-      "sessionId": "session_1789910423583_mka7",
-      "version": 1,
-      "invoiceNumber": "INV-231410",
-      "subtotal": 2120,
-      "taxAmount": 106,
-      "discountAmount": 0,
-      "finalAmount": 2226,
-      "status": "UNPAID",
-      "createdAt": "2026-09-20T13:49:30.357Z",
-      "updatedAt": "2026-09-20T13:49:30.357Z"
-    },
-    {
-      "id": "bill_1789912170369_5t5o",
-      "sessionId": "session_1789911298579_txev",
-      "version": 1,
-      "invoiceNumber": "INV-861598",
-      "subtotal": 1900,
-      "taxAmount": 95,
-      "discountAmount": 0,
-      "finalAmount": 1995,
-      "status": "UNPAID",
-      "createdAt": "2026-09-20T13:49:30.369Z",
-      "updatedAt": "2026-09-20T13:49:30.369Z"
-    },
-    {
-      "id": "bill_1789912170378_qduk",
-      "sessionId": "session_1789911893243_en9f",
-      "version": 1,
-      "invoiceNumber": "INV-351824",
-      "subtotal": 2260,
-      "taxAmount": 113,
-      "discountAmount": 0,
-      "finalAmount": 2373,
-      "status": "UNPAID",
-      "createdAt": "2026-09-20T13:49:30.378Z",
-      "updatedAt": "2026-09-20T13:49:30.378Z"
-    },
-    {
-      "id": "bill_1789912170391_lcnc",
-      "sessionId": "session_1789911943739_94gi",
-      "version": 1,
-      "invoiceNumber": "INV-219762",
-      "subtotal": 1580,
-      "taxAmount": 79,
-      "discountAmount": 0,
-      "finalAmount": 1659,
-      "status": "UNPAID",
-      "createdAt": "2026-09-20T13:49:30.391Z",
-      "updatedAt": "2026-09-20T13:49:30.391Z"
+      "status": "PAID",
+      "createdAt": "2026-09-20T14:27:02.732Z",
+      "updatedAt": "2026-09-20T14:27:21.224Z"
     }
   ],
   "billItems": [
     {
-      "id": "bitem_1789912170349_vihp",
-      "billId": "bill_1789912170349_zw7g",
+      "id": "bitem_1789914422732_nbqa",
+      "billId": "bill_1789914422732_6bbi",
       "menuItemId": "menu-margherita",
       "name": "Artisan Wood-Fired Margherita",
       "quantity": 2,
@@ -950,187 +416,37 @@
       "totalPrice": 600
     },
     {
-      "id": "bitem_1789912170349_ikx3",
-      "billId": "bill_1789912170349_zw7g",
+      "id": "bitem_1789914422732_zghf",
+      "billId": "bill_1789914422732_6bbi",
       "menuItemId": "menu-coke",
       "name": "Chilled Coca Cola",
       "quantity": 2,
       "unitPrice": 80,
       "totalPrice": 160
-    },
-    {
-      "id": "bitem_1789912170357_xovx",
-      "billId": "bill_1789912170357_egja",
-      "menuItemId": "menu-margherita",
-      "name": "Artisan Wood-Fired Margherita",
-      "quantity": 2,
-      "unitPrice": 300,
-      "totalPrice": 600
-    },
-    {
-      "id": "bitem_1789912170357_ujil",
-      "billId": "bill_1789912170357_egja",
-      "menuItemId": "menu-burger",
-      "name": "Smoked Prime Burger",
-      "quantity": 3,
-      "unitPrice": 320,
-      "totalPrice": 960
-    },
-    {
-      "id": "bitem_1789912170357_ib6r",
-      "billId": "bill_1789912170357_egja",
-      "menuItemId": "menu-bruschetta",
-      "name": "Classic Tomato Bruschetta",
-      "quantity": 1,
-      "unitPrice": 180,
-      "totalPrice": 180
-    },
-    {
-      "id": "bitem_1789912170357_eklu",
-      "billId": "bill_1789912170357_egja",
-      "menuItemId": "menu-truffle",
-      "name": "Truffle Mushroom Pizza",
-      "quantity": 1,
-      "unitPrice": 380,
-      "totalPrice": 380
-    },
-    {
-      "id": "bitem_1789912170369_mrwm",
-      "billId": "bill_1789912170369_5t5o",
-      "menuItemId": "menu-truffle",
-      "name": "Truffle Mushroom Pizza",
-      "quantity": 1,
-      "unitPrice": 380,
-      "totalPrice": 380
-    },
-    {
-      "id": "bitem_1789912170369_695g",
-      "billId": "bill_1789912170369_5t5o",
-      "menuItemId": "menu-bruschetta",
-      "name": "Classic Tomato Bruschetta",
-      "quantity": 4,
-      "unitPrice": 180,
-      "totalPrice": 720
-    },
-    {
-      "id": "bitem_1789912170369_matf",
-      "billId": "bill_1789912170369_5t5o",
-      "menuItemId": "menu-coffee",
-      "name": "Specialty Roasted Coffee",
-      "quantity": 4,
-      "unitPrice": 120,
-      "totalPrice": 480
-    },
-    {
-      "id": "bitem_1789912170369_621l",
-      "billId": "bill_1789912170369_5t5o",
-      "menuItemId": "menu-burger",
-      "name": "Smoked Prime Burger",
-      "quantity": 1,
-      "unitPrice": 320,
-      "totalPrice": 320
-    },
-    {
-      "id": "bitem_1789912170378_t42o",
-      "billId": "bill_1789912170378_qduk",
-      "menuItemId": "menu-bruschetta",
-      "name": "Classic Tomato Bruschetta",
-      "quantity": 1,
-      "unitPrice": 180,
-      "totalPrice": 180
-    },
-    {
-      "id": "bitem_1789912170378_toza",
-      "billId": "bill_1789912170378_qduk",
-      "menuItemId": "menu-coffee",
-      "name": "Specialty Roasted Coffee",
-      "quantity": 3,
-      "unitPrice": 120,
-      "totalPrice": 360
-    },
-    {
-      "id": "bitem_1789912170378_14if",
-      "billId": "bill_1789912170378_qduk",
-      "menuItemId": "menu-lavacake",
-      "name": "Molten Chocolate Lava Cake",
-      "quantity": 3,
-      "unitPrice": 240,
-      "totalPrice": 720
-    },
-    {
-      "id": "bitem_1789912170378_i0zs",
-      "billId": "bill_1789912170378_qduk",
-      "menuItemId": "menu-burger",
-      "name": "Smoked Prime Burger",
-      "quantity": 1,
-      "unitPrice": 320,
-      "totalPrice": 320
-    },
-    {
-      "id": "bitem_1789912170378_kod1",
-      "billId": "bill_1789912170378_qduk",
-      "menuItemId": "menu-margherita",
-      "name": "Artisan Wood-Fired Margherita",
-      "quantity": 1,
-      "unitPrice": 300,
-      "totalPrice": 300
-    },
-    {
-      "id": "bitem_1789912170378_bmsh",
-      "billId": "bill_1789912170378_qduk",
-      "menuItemId": "menu-truffle",
-      "name": "Truffle Mushroom Pizza",
-      "quantity": 1,
-      "unitPrice": 380,
-      "totalPrice": 380
-    },
-    {
-      "id": "bitem_1789912170391_c1ip",
-      "billId": "bill_1789912170391_lcnc",
-      "menuItemId": "menu-margherita",
-      "name": "Artisan Wood-Fired Margherita",
-      "quantity": 1,
-      "unitPrice": 300,
-      "totalPrice": 300
-    },
-    {
-      "id": "bitem_1789912170391_9i3e",
-      "billId": "bill_1789912170391_lcnc",
-      "menuItemId": "menu-burger",
-      "name": "Smoked Prime Burger",
-      "quantity": 2,
-      "unitPrice": 320,
-      "totalPrice": 640
-    },
-    {
-      "id": "bitem_1789912170391_3tn0",
-      "billId": "bill_1789912170391_lcnc",
-      "menuItemId": "menu-coke",
-      "name": "Chilled Coca Cola",
-      "quantity": 1,
-      "unitPrice": 80,
-      "totalPrice": 80
-    },
-    {
-      "id": "bitem_1789912170391_2wig",
-      "billId": "bill_1789912170391_lcnc",
-      "menuItemId": "menu-truffle",
-      "name": "Truffle Mushroom Pizza",
-      "quantity": 1,
-      "unitPrice": 380,
-      "totalPrice": 380
-    },
-    {
-      "id": "bitem_1789912170391_je0p",
-      "billId": "bill_1789912170391_lcnc",
-      "menuItemId": "menu-bruschetta",
-      "name": "Classic Tomato Bruschetta",
-      "quantity": 1,
-      "unitPrice": 180,
-      "totalPrice": 180
     }
   ],
   "billAdjustments": [],
-  "payments": [],
-  "auditLogs": []
+  "payments": [
+    {
+      "id": "pay_1789914441222_wcjp",
+      "billId": "bill_1789914422732_6bbi",
+      "amount": 798,
+      "method": "UPI",
+      "referenceNumber": "UPI-441222",
+      "receivedByUserId": "Manager",
+      "status": "SUCCESS",
+      "createdAt": "2026-09-20T14:27:21.222Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "audit_1789914441254_qhbd",
+      "restaurantId": "rest-bistro-01",
+      "branchId": "branch-downtown-01",
+      "userId": "Manager",
+      "action": "PAYMENT_RECEIVED",
+      "detailsJson": "{\"invoiceNumber\":\"INV-420643\",\"amount\":798,\"method\":\"UPI\",\"table\":\"Table 15\"}",
+      "createdAt": "2026-09-20T14:27:21.254Z"
+    }
+  ]
 }

@@ -70,6 +70,7 @@ export interface MenuItem {
   isVeg: boolean;
   isAvailable: boolean;
   stationId?: string | null;
+  prepTimeMinutes?: number;
 }
 
 export interface DiningSession {
@@ -741,6 +742,12 @@ export const prisma = {
         ...m,
         station: store.kitchenStations.find((s) => s.id === m.stationId) || null,
       }));
+    },
+    create: async (args: { data: Omit<MenuItem, 'id'> }) => {
+      const item = { ...args.data, id: `menu_${Date.now()}_${Math.random().toString(36).slice(2, 7)}` };
+      store.menuItems.push(item);
+      store.save();
+      return item;
     },
     update: async (args: { where: { id: string }; data: Partial<MenuItem> }) => {
       const idx = store.menuItems.findIndex((m) => m.id === args.where.id);

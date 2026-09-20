@@ -147,7 +147,7 @@ billRouter.get('/bills/session/:sessionId', async (req, res) => {
 billRouter.post('/bills/:billId/adjust', async (req, res) => {
   try {
     const { billId } = req.params;
-    const { type, reason, discountAmount = 0, modifiedItems, userId = 'Cashier Staff' } = req.body;
+    const { type, reason, discountAmount = 0, taxRate, modifiedItems, userId = 'Cashier Staff' } = req.body;
 
     if (!reason) {
       return res.status(400).json({ error: 'A mandatory reason is required for bill adjustments.' });
@@ -200,8 +200,10 @@ billRouter.post('/bills/:billId/adjust', async (req, res) => {
       });
     }
 
-    const taxRate = currentBill.session.branch.restaurant.taxRate || 5.0;
-    const newTax = Math.round((newSubtotal * (taxRate / 100)) * 100) / 100;
+    const newTaxRate = taxRate === undefined
+      ? currentBill.session.branch.restaurant.taxRate || 5.0
+      : Math.max(0, Number(taxRate));
+    const newTax = Math.round((newSubtotal * (newTaxRate / 100)) * 100) / 100;
     const newDiscount = Number(discountAmount);
     const newFinal = Math.max(0, Math.round((newSubtotal + newTax - newDiscount) * 100) / 100);
 
@@ -225,7 +227,7 @@ billRouter.post('/bills/:billId/adjust', async (req, res) => {
             userId,
             reason,
             oldValue: `₹${currentBill.finalAmount} (v${currentBill.version})`,
-            newValue: `₹${newFinal} (v${nextVersion})`,
+            newValue: `₹${newFinal} (v${nextVersion}, GST ${newTaxRate}%)`,
           },
         },
       },

@@ -36,11 +36,7 @@ exports.billRouter.get('/bills/session/:sessionId', async (req, res) => {
         if (!session) {
             return res.status(404).json({ error: 'Session not found' });
         }
-        // If an existing bill exists, return latest version
-        if (session.bills.length > 0) {
-            return res.json({ session, latestBill: session.bills[0], history: session.bills });
-        }
-        // Otherwise calculate a draft bill from all non-cancelled round items
+        // Recalculate every non-cancelled round so later orders are included automatically.
         let subtotal = 0;
         const billItemsByMenuItem = new Map();
         for (const round of session.orders) {
@@ -68,6 +64,42 @@ exports.billRouter.get('/bills/session/:sessionId', async (req, res) => {
         const taxAmount = Math.round((subtotal * (taxRate / 100)) * 100) / 100;
         const discountAmount = 0;
         const finalAmount = Math.round((subtotal + taxAmount - discountAmount) * 100) / 100;
+        const latestBill = session.bills[0];
+        if (latestBill) {
+            if (latestBill.status === 'PAID') {
+                return res.json({ session, latestBill, history: session.bills });
+            }
+            const matchesLatest = latestBill.subtotal === subtotal &&
+                latestBill.taxAmount === taxAmount &&
+                latestBill.finalAmount === finalAmount &&
+                latestBill.items.length === billItems.length &&
+                billItems.every((item) => {
+                    const existing = latestBill.items.find((line) => line.menuItemId === item.menuItemId);
+                    return existing && existing.quantity === item.quantity && existing.totalPrice === item.totalPrice;
+                });
+            if (matchesLatest) {
+                return res.json({ session, latestBill, history: session.bills });
+            }
+            const refreshedBill = await db_1.prisma.bill.create({
+                data: {
+                    sessionId: session.id,
+                    version: latestBill.version + 1,
+                    invoiceNumber: latestBill.invoiceNumber,
+                    subtotal,
+                    taxAmount,
+                    discountAmount,
+                    finalAmount,
+                    status: 'UNPAID',
+                    items: { create: billItems },
+                },
+                include: { items: true, adjustments: true, payments: true },
+            });
+            return res.json({
+                session,
+                latestBill: refreshedBill,
+                history: [refreshedBill, ...session.bills],
+            });
+        }
         // Generate random Invoice code
         const invoiceNumber = `INV-${Math.floor(100000 + Math.random() * 900000)}`;
         // Create Draft Bill Version 1
@@ -102,7 +134,7 @@ exports.billRouter.get('/bills/session/:sessionId', async (req, res) => {
 exports.billRouter.post('/bills/:billId/adjust', async (req, res) => {
     try {
         const { billId } = req.params;
-        const { type, reason, discountAmount = 0, modifiedItems, userId = 'Cashier Staff' } = req.body;
+        const { type, reason, discountAmount = 0, taxRate, modifiedItems, userId = 'Cashier Staff' } = req.body;
         if (!reason) {
             return res.status(400).json({ error: 'A mandatory reason is required for bill adjustments.' });
         }
@@ -148,8 +180,10 @@ exports.billRouter.post('/bills/:billId/adjust', async (req, res) => {
                 };
             });
         }
-        const taxRate = currentBill.session.branch.restaurant.taxRate || 5.0;
-        const newTax = Math.round((newSubtotal * (taxRate / 100)) * 100) / 100;
+        const newTaxRate = taxRate === undefined
+            ? currentBill.session.branch.restaurant.taxRate || 5.0
+            : Math.max(0, Number(taxRate));
+        const newTax = Math.round((newSubtotal * (newTaxRate / 100)) * 100) / 100;
         const newDiscount = Number(discountAmount);
         const newFinal = Math.max(0, Math.round((newSubtotal + newTax - newDiscount) * 100) / 100);
         // Create New Bill Version (Immutable History)
@@ -172,7 +206,7 @@ exports.billRouter.post('/bills/:billId/adjust', async (req, res) => {
                         userId,
                         reason,
                         oldValue: `₹${currentBill.finalAmount} (v${currentBill.version})`,
-                        newValue: `₹${newFinal} (v${nextVersion})`,
+                        newValue: `₹${newFinal} (v${nextVersion}, GST ${newTaxRate}%)`,
                     },
                 },
             },

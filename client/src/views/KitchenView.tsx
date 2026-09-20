@@ -279,7 +279,7 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
                       className="flex-1 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all"
                     >
                       <CheckCircle2 className="w-4 h-4" />
-                      <span>Accept Ticket (Start 3m Timer)</span>
+                      <span>Accept Order</span>
                     </button>
                   )}
 

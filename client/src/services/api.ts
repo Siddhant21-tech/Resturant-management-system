@@ -31,6 +31,28 @@ export async function fetchMenu(branchId: string) {
   return res.json();
 }
 
+export async function updateMenuItem(itemId: string, data: { name?: string; price?: number; isAvailable?: boolean }) {
+  const res = await fetch(`${API_BASE}/menu/items/${itemId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || 'Failed to update menu item');
+  return json;
+}
+
+export async function createMenuItem(branchId: string, data: { categoryId: string; name: string; price: number; prepTimeMinutes: number; isVeg: boolean; isAvailable: boolean }) {
+  const res = await fetch(`${API_BASE}/branches/${branchId}/menu/items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || 'Failed to create menu item');
+  return json;
+}
+
 export async function createSession(data: {
   branchId: string;
   tableId: string;
@@ -131,6 +153,7 @@ export async function adjustBill(
     type?: string;
     reason: string;
     discountAmount?: number;
+    taxRate?: number;
     modifiedItems?: any[];
     userId?: string;
   }

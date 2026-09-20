@@ -201,7 +201,7 @@ export const WaiterView: React.FC<WaiterViewProps> = ({
     }
   };
 
-  // 3-Minute Rule Calculation for UI Badge
+  // Waiters can edit until preparation is complete.
   const getModificationCountdown = (item: OrderItem) => {
     const lockedStatuses = ['PREPARING', 'READY', 'SERVED', 'CANCELLED'];
     if (lockedStatuses.includes(item.status)) {
@@ -222,27 +222,10 @@ export const WaiterView: React.FC<WaiterViewProps> = ({
       };
     }
 
-    const acceptedTime = new Date(item.acceptedAt).getTime();
-    const elapsedSeconds = Math.floor((currentTime - acceptedTime) / 1000);
-    const remaining = 180 - elapsedSeconds;
-
-    if (remaining <= 0) {
-      return {
-        allowed: false,
-        label: 'Locked (> 3 min elapsed)',
-        badgeClass: 'bg-red-500/10 text-red-400 border-red-500/20',
-        isLocked: true,
-      };
-    }
-
-    const mins = Math.floor(remaining / 60);
-    const secs = remaining % 60;
-    const formatted = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-
     return {
       allowed: true,
-      label: `Editable (${formatted})`,
-      badgeClass: 'bg-amber-500/10 text-amber-400 border-amber-500/30 animate-pulse',
+      label: 'Editable until ready',
+      badgeClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
       isLocked: false,
     };
   };
@@ -304,7 +287,7 @@ export const WaiterView: React.FC<WaiterViewProps> = ({
             </h1>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Multiple staff can append order rounds to Table sessions with real-time 3-minute modification window.
+            Multiple staff can append order rounds to table sessions; order changes remain available until preparation is complete.
           </p>
         </div>
 

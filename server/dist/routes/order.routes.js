@@ -8,7 +8,7 @@ exports.orderRouter = (0, express_1.Router)();
 // 3-Minute Rule Helper:
 // Checks whether an order item can be modified or cancelled
 const canModifyItem = (item) => {
-    const LOCKED_STATUSES = ['PREPARING', 'READY', 'SERVED', 'CANCELLED'];
+    const LOCKED_STATUSES = ['READY', 'SERVED', 'CANCELLED'];
     if (LOCKED_STATUSES.includes(item.status)) {
         return {
             allowed: false,
@@ -19,21 +19,7 @@ const canModifyItem = (item) => {
     if (!item.acceptedAt) {
         return { allowed: true, secondsRemaining: 180 };
     }
-    const now = new Date().getTime();
-    const acceptedTime = new Date(item.acceptedAt).getTime();
-    const elapsedSeconds = Math.floor((now - acceptedTime) / 1000);
-    const THREE_MINUTES = 3 * 60; // 180 seconds
-    if (elapsedSeconds >= THREE_MINUTES) {
-        return {
-            allowed: false,
-            reason: `Modification locked: It has been accepted by the kitchen for ${elapsedSeconds} seconds (> 3 minutes).`,
-            secondsRemaining: 0,
-        };
-    }
-    return {
-        allowed: true,
-        secondsRemaining: THREE_MINUTES - elapsedSeconds,
-    };
+    return { allowed: true };
 };
 exports.canModifyItem = canModifyItem;
 // Create a new Order Round in an active session

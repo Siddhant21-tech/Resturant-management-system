@@ -75,6 +75,7 @@ export interface MenuItem {
   isAvailable: boolean;
   stationId?: string | null;
   station?: KitchenStation | null;
+  prepTimeMinutes?: number;
 }
 
 export interface DiningSession {
