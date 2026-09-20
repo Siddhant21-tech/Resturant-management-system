@@ -1,0 +1,13 @@
+{
+  "name": "restaurant-management-system-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Event/Order-Based Multi-Tenant Restaurant SaaS Platform",
+  "scripts": {
+    "install:all": "npm.cmd --prefix server install && npm.cmd --prefix client install",
+    "db:push": "npx.cmd --prefix server prisma db push",
+    "db:seed": "npm.cmd --prefix server run seed",
+    "dev:server": "npm.cmd --prefix server run dev",
+    "dev:client": "npm.cmd --prefix client run dev"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "restaurant-management-server",
+  "version": "1.0.0",
+  "description": "Real-time Event/Order-Based Multi-Tenant Restaurant Management API & Engine",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "npx.cmd tsx watch src/index.ts",
+    "build": "npx.cmd tsc",
+    "start": "node dist/index.js",
+    "seed": "npx.cmd tsx src/seed.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.17.9",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
