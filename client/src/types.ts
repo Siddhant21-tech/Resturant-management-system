@@ -11,6 +11,7 @@ export interface Restaurant {
   name: string;
   slug: string;
   logoUrl?: string | null;
+  wallpaperUrl?: string | null;
   taxRate: number;
   currency: string;
   branches: Branch[];

@@ -9,9 +9,11 @@ import {
   Layers,
   Clock,
   ShieldCheck,
+  ChevronDown,
+  Receipt,
 } from 'lucide-react';
 import { Restaurant, Branch, AuditLog } from '../types';
-import { fetchAuditLogs, fetchAnalytics } from '../services/api';
+import { fetchAuditLogs, fetchAnalytics, fetchTables, fetchBillForSession } from '../services/api';
 
 interface AdminViewProps {
   branchId: string;
@@ -35,16 +37,24 @@ export const AdminView: React.FC<AdminViewProps> = ({
     recentPayments: any[];
   } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [billDetails, setBillDetails] = useState<any[]>([]);
 
   const loadData = async () => {
     try {
       setLoading(true);
-      const [logs, stats] = await Promise.all([
+      const [logs, stats, tables] = await Promise.all([
         fetchAuditLogs(branchId),
         fetchAnalytics(branchId),
+        fetchTables(branchId),
       ]);
       setAuditLogs(logs);
       setAnalytics(stats);
+      const activeBills = await Promise.all(
+        tables
+          .filter((table: any) => table.currentSessionId)
+          .map((table: any) => fetchBillForSession(table.currentSessionId))
+      );
+      setBillDetails(activeBills.filter((bill) => bill?.latestBill));
     } catch (err) {
       console.error('Error loading admin data:', err);
     } finally {
@@ -64,13 +74,13 @@ export const AdminView: React.FC<AdminViewProps> = ({
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
               <span>⚙️ Admin, RBAC & Audit Console</span>
-              <span className="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30 font-medium">
-                Multi-Tenant Governance
+              <span className="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-medium">
+                Branch Operations
               </span>
             </h1>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Platform multi-tenancy overview, role-based access matrix, and permanent audit log history.
+            Revenue, bill activity, staff operations, and permanent audit history for this branch.
           </p>
         </div>
       </div>
@@ -116,81 +126,64 @@ export const AdminView: React.FC<AdminViewProps> = ({
 
         <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
-            <span>Multi-Tenant Tenants</span>
-            <Store className="w-4 h-4 text-purple-400" />
+            <span>Current Branch</span>
+            <Store className="w-4 h-4 text-cyan-400" />
           </div>
-          <div className="text-2xl font-black text-white font-mono">
-            {restaurants.length} Restaurants
-          </div>
-          <div className="text-[11px] text-slate-400">
-            {restaurants.flatMap((r) => r.branches || []).length} Active Branches
-          </div>
+          <div className="truncate text-xl font-black text-white">{selectedRestaurant?.name || 'Restaurant'}</div>
+          <div className="text-[11px] text-slate-400">{selectedRestaurant?.branches.find((branch) => branch.id === branchId)?.name || 'Active branch'}</div>
         </div>
       </div>
 
-      {/* Role-Based Permissions (RBAC) Matrix Table (From Prompt Section 8) */}
-      <div className="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-orange-400" />
-              Role-Based Access Matrix (Configurable RBAC)
-            </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Governs permissions across Waiters, Kitchen, Cashiers, and Admins.
-            </p>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5 lg:col-span-2">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white"><Receipt className="h-4 w-4 text-cyan-400" />Bill details</h2>
+              <p className="mt-1 text-xs text-slate-400">Live itemized bills for active sessions and requested tables.</p>
+            </div>
+            <span className="text-xs text-slate-500">{billDetails.length} active</span>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {billDetails.length ? billDetails.map((entry: any) => (
+              <div key={entry.latestBill.id} className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <div><p className="font-bold text-white">{entry.session.table?.number || 'Table'}</p><p className="text-[10px] text-slate-500">Invoice #{entry.latestBill.invoiceNumber}</p></div>
+                  <span className="font-mono font-bold text-emerald-400">₹{Number(entry.latestBill.finalAmount).toFixed(2)}</span>
+                </div>
+                <div className="mt-2 space-y-1">
+                  {entry.latestBill.items.map((item: any) => <div key={item.id} className="flex justify-between gap-3 text-xs text-slate-300"><span>{item.quantity} × {item.name}</span><span className="font-mono">₹{Number(item.totalPrice).toFixed(2)}</span></div>)}
+                </div>
+                <div className="mt-3 flex justify-between text-[10px] text-slate-500"><span>Subtotal ₹{Number(entry.latestBill.subtotal).toFixed(2)} • GST ₹{Number(entry.latestBill.taxAmount).toFixed(2)}</span><span>{entry.latestBill.status}</span></div>
+              </div>
+            )) : <p className="col-span-full py-8 text-center text-xs text-slate-500">No active bill details available.</p>}
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs text-left">
-            <thead>
-              <tr className="border-b border-slate-800 text-slate-400 uppercase text-[10px] tracking-wider">
-                <th className="py-2.5 px-3">System Action</th>
-                <th className="py-2.5 px-3 text-center">Waiter</th>
-                <th className="py-2.5 px-3 text-center">Kitchen</th>
-                <th className="py-2.5 px-3 text-center">Cashier</th>
-                <th className="py-2.5 px-3 text-center">Restaurant Admin</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/60 font-medium">
-              <tr>
-                <td className="py-2 px-3 text-white font-semibold">Create Order / Round</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-                <td className="py-2 px-3 text-center text-slate-600">-</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-3 text-white font-semibold">Modify Recent Order (&lt; 3m)</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-                <td className="py-2 px-3 text-center text-slate-600">-</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-3 text-white font-semibold">Accept / Cook Order Item</td>
-                <td className="py-2 px-3 text-center text-slate-600">-</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-                <td className="py-2 px-3 text-center text-slate-600">-</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-3 text-white font-semibold">Adjust Bill / Discount</td>
-                <td className="py-2 px-3 text-center text-slate-600">-</td>
-                <td className="py-2 px-3 text-center text-slate-600">-</td>
-                <td className="py-2 px-3 text-center text-amber-400 font-bold">✓ (Audit Logged)</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-3 text-white font-semibold">Record Payment & Settle</td>
-                <td className="py-2 px-3 text-center text-slate-600">-</td>
-                <td className="py-2 px-3 text-center text-slate-600">-</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-                <td className="py-2 px-3 text-center text-emerald-400 font-bold">✓</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white"><Receipt className="h-4 w-4 text-cyan-400" />Bill activity</h2>
+              <p className="mt-1 text-xs text-slate-400">Recent payments recorded for this branch.</p>
+            </div>
+            <span className="text-xs text-slate-500">{analytics?.recentPayments?.length || 0} records</span>
+          </div>
+          <div className="space-y-2">
+            {analytics?.recentPayments?.length ? analytics.recentPayments.map((payment: any) => (
+              <div key={payment.id} className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-950/60 p-3 text-xs">
+                <div><p className="font-bold text-white">{payment.bill?.session?.table?.number || 'Table'}</p><p className="text-slate-500">{payment.method} • {new Date(payment.createdAt).toLocaleTimeString()}</p></div>
+                <span className="font-mono font-bold text-emerald-400">₹{Number(payment.amount).toFixed(2)}</span>
+              </div>
+            )) : <p className="py-8 text-center text-xs text-slate-500">No bill payments recorded yet.</p>}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-white">Branch focus</h2>
+          <p className="mt-1 text-xs leading-5 text-slate-400">Use this console for today&apos;s revenue, billing activity, and audit checks. Staff workspaces stay separated by role.</p>
+          <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
+            <div className="rounded-xl bg-slate-950/70 p-3"><span className="text-slate-500">Open sessions</span><strong className="mt-1 block text-lg text-white">{(analytics?.totalSessions || 0) - (analytics?.completedSessions || 0)}</strong></div>
+            <div className="rounded-xl bg-slate-950/70 p-3"><span className="text-slate-500">Audit events</span><strong className="mt-1 block text-lg text-white">{auditLogs.length}</strong></div>
+          </div>
         </div>
       </div>
 

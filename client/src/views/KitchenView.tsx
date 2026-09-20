@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   ChefHat,
   Clock,
@@ -70,8 +70,56 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
     return `${m}m ${s < 10 ? '0' : ''}${s}s`;
   };
 
+  const groupedOrders = useMemo(() => {
+    const groups = new Map<string, {
+      id: string;
+      tableNum: string;
+      sessionCode: string;
+      roundNum: number;
+      source: string;
+      createdAt: string;
+      items: OrderItem[];
+    }>();
+
+    tickets.forEach((ticket) => {
+      const roundId = ticket.roundId;
+      const existing = groups.get(roundId);
+      if (existing) {
+        existing.items.push(ticket);
+        if (new Date(ticket.createdAt).getTime() < new Date(existing.createdAt).getTime()) {
+          existing.createdAt = ticket.createdAt;
+        }
+        return;
+      }
+
+      groups.set(roundId, {
+        id: roundId,
+        tableNum: ticket.round?.session?.table?.number || 'Table ?',
+        sessionCode: ticket.round?.session?.sessionCode || '',
+        roundNum: ticket.round?.roundNumber || 1,
+        source: ticket.round?.source || 'WAITER',
+        createdAt: ticket.createdAt,
+        items: [ticket],
+      });
+    });
+
+    return Array.from(groups.values()).sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }, [tickets]);
+
+  const handleOrderTransition = async (items: OrderItem[], nextStatus: string) => {
+    try {
+      await Promise.all(items.map((item) => updateItemStatus(item.id, nextStatus)));
+      if (nextStatus === 'READY') playNotificationSound('item_ready');
+      await loadData();
+    } catch (err) {
+      console.error('Failed to update kitchen order:', err);
+    }
+  };
+
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
+    <div className="kitchen-board mx-auto flex h-[calc(100vh-112px)] max-w-7xl flex-col overflow-hidden p-4 md:p-6">
       {/* KDS Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
         <div>
@@ -100,7 +148,7 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              All ({tickets.length})
+              All ({groupedOrders.length})
             </button>
             {stations.map((s) => {
               const count = tickets.filter((t) => t.stationId === s.id).length;
@@ -137,22 +185,18 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {tickets.map((ticket) => {
-            const tableNum = ticket.round?.session?.table?.number || 'Table ?';
-            const sessionCode = ticket.round?.session?.sessionCode || '';
-            const roundNum = ticket.round?.roundNumber || 1;
-            const source = ticket.round?.source || 'WAITER';
-
-            const isPending = ticket.status === 'PENDING';
-            const isAccepted = ticket.status === 'ACCEPTED';
-            const isPreparing = ticket.status === 'PREPARING';
-            const isReady = ticket.status === 'READY';
+        <div className="min-h-0 flex-1 grid grid-cols-1 gap-3 overflow-y-auto pr-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-max content-start">
+          {groupedOrders.map((order) => {
+            const isPending = order.items.some((item) => item.status === 'PENDING');
+            const isAccepted = !isPending && order.items.some((item) => item.status === 'ACCEPTED');
+            const isPreparing = !isPending && !isAccepted && order.items.some((item) => item.status === 'PREPARING');
+            const isReady = !isPending && !isAccepted && !isPreparing && order.items.every((item) => item.status === 'READY');
+            const status = isPending ? 'PENDING' : isAccepted ? 'ACCEPTED' : isPreparing ? 'PREPARING' : 'READY';
 
             return (
               <div
-                key={ticket.id}
-                className={`p-4 rounded-2xl border transition-all flex flex-col justify-between ${
+                key={order.id}
+                className={`rounded-2xl border p-4 transition-all ${
                   isPending
                     ? 'bg-red-950/20 border-red-500/40 ring-1 ring-red-500/30 animate-pulse'
                     : isAccepted
@@ -162,44 +206,44 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
                     : 'bg-emerald-950/20 border-emerald-500/30'
                 }`}
               >
-                {/* Header: Table, Round, Time */}
+                {/* Each submitted round stays as one independent kitchen order. */}
                 <div>
                   <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                     <div className="flex items-center gap-2">
-                      <span className="font-black text-lg text-white">{tableNum}</span>
+                      <span className="font-black text-lg text-white">{order.tableNum}</span>
                       <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">
-                        {sessionCode}
+                        {order.sessionCode}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
                       <Clock className="w-3.5 h-3.5 text-slate-500" />
-                      <span>{formatElapsed(ticket.createdAt)}</span>
+                      <span>{formatElapsed(order.createdAt)}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between text-[11px] text-slate-400 py-1.5">
                     <span>
-                      Round #{roundNum} • Via {source}
+                      Order #{order.roundNum} • Via {order.source}
                     </span>
-                    {ticket.station && (
+                    {order.items[0]?.station && (
                       <span
                         className="px-2 py-0.5 rounded font-semibold text-[10px]"
                         style={{
-                          backgroundColor: `${ticket.station.colorCode}20`,
-                          color: ticket.station.colorCode,
+                          backgroundColor: `${order.items[0].station.colorCode}20`,
+                          color: order.items[0].station.colorCode,
                         }}
                       >
-                        {ticket.station.name}
+                        {order.items[0].station.name}
                       </span>
                     )}
                   </div>
 
-                  {/* Item Content */}
+                  {/* Item content */}
                   <div className="py-3">
                     <div className="flex items-start justify-between gap-2">
-                      <span className="font-extrabold text-base text-white">
-                        {ticket.quantity} × {ticket.menuItem?.name}
+                      <span className="font-extrabold text-sm text-white">
+                        {order.items.length} item{order.items.length === 1 ? '' : 's'} in this order
                       </span>
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
@@ -212,15 +256,18 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
                             : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
                         }`}
                       >
-                        {ticket.status}
+                        {status}
                       </span>
                     </div>
 
-                    {ticket.notes && (
-                      <div className="mt-2 p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-amber-300 font-medium italic">
-                        Note: “{ticket.notes}”
-                      </div>
-                    )}
+                    <div className="mt-2 space-y-1 rounded-lg border border-slate-800 bg-slate-900 p-2">
+                      {order.items.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between gap-2 text-xs">
+                          <span className="font-bold text-slate-100">{item.quantity} × {item.menuItem?.name}</span>
+                          {item.notes && <span className="truncate text-[10px] italic text-amber-300">{item.notes}</span>}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -228,7 +275,7 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
                 <div className="pt-3 border-t border-slate-800 flex items-center gap-2">
                   {isPending && (
                     <button
-                      onClick={() => handleStatusTransition(ticket, 'ACCEPTED')}
+                      onClick={() => handleOrderTransition(order.items, 'ACCEPTED')}
                       className="flex-1 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all"
                     >
                       <CheckCircle2 className="w-4 h-4" />
@@ -238,7 +285,7 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
 
                   {isAccepted && (
                     <button
-                      onClick={() => handleStatusTransition(ticket, 'PREPARING')}
+                      onClick={() => handleOrderTransition(order.items, 'PREPARING')}
                       className="flex-1 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-blue-500/20"
                     >
                       <Flame className="w-4 h-4" />
@@ -248,7 +295,7 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
 
                   {isPreparing && (
                     <button
-                      onClick={() => handleStatusTransition(ticket, 'READY')}
+                      onClick={() => handleOrderTransition(order.items, 'READY')}
                       className="flex-1 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-emerald-500/20"
                     >
                       <Sparkles className="w-4 h-4" />
@@ -258,7 +305,7 @@ export const KitchenView: React.FC<KitchenViewProps> = ({ branchId, onRefreshTri
 
                   {isReady && (
                     <button
-                      onClick={() => handleStatusTransition(ticket, 'SERVED')}
+                      onClick={() => handleOrderTransition(order.items, 'SERVED')}
                       className="flex-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
                     >
                       <CheckCircle2 className="w-4 h-4 text-emerald-400" />

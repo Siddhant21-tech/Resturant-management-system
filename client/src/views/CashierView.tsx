@@ -17,6 +17,7 @@ import confetti from 'canvas-confetti';
 import { Table, Bill, DiningSession } from '../types';
 import { fetchTables, fetchBillForSession, adjustBill, payBill } from '../services/api';
 import { playNotificationSound } from '../services/socket';
+import { printThermalReceipt } from '../services/thermalPrinter';
 
 interface CashierViewProps {
   branchId: string;
@@ -588,9 +589,16 @@ export const CashierView: React.FC<CashierViewProps> = ({ branchId, onRefreshTri
       {/* Printable Thermal Tax Invoice Modal */}
       {showPrintModal && bill && session && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-white text-slate-950 rounded-2xl p-6 max-w-sm w-full font-mono text-xs space-y-4 shadow-2xl">
+          <div className="thermal-receipt bg-white text-slate-950 rounded-2xl p-6 max-w-sm w-full font-mono text-xs space-y-4 shadow-2xl">
             {/* Header */}
             <div className="text-center border-b pb-3 border-dashed border-slate-400 space-y-1">
+              <div className="receipt-logo mx-auto" aria-label="Velvet Bistro logo">
+                <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+                  <path d="M11 25h42v6H11zM17 31h30l-3 20H20z" fill="currentColor" />
+                  <path d="M24 13h16v12H24zM20 9h24v5H20z" fill="currentColor" />
+                  <path d="M28 17h8v8h-8z" fill="white" />
+                </svg>
+              </div>
               <h2 className="text-base font-black uppercase tracking-wider">The Velvet Bistro</h2>
               <p className="text-[10px] text-slate-600">Downtown Flagship • GSTIN: 07AAAAA0000A1Z5</p>
               <p className="text-[10px] text-slate-600">42 Promenade Avenue, Connaught Place</p>
@@ -656,7 +664,7 @@ export const CashierView: React.FC<CashierViewProps> = ({ branchId, onRefreshTri
                 Close
               </button>
               <button
-                onClick={() => window.print()}
+                onClick={printThermalReceipt}
                 className="px-4 py-1.5 rounded-lg bg-slate-900 text-white font-bold hover:bg-black"
               >
                 Print

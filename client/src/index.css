@@ -17,7 +17,8 @@
   background-image: linear-gradient(115deg, rgba(3, 12, 23, 0.96) 8%, rgba(5, 21, 32, 0.78) 52%, rgba(3, 12, 23, 0.88)), var(--login-backdrop);
   background-position: center;
   background-size: cover;
-  filter: blur(8px) saturate(0.85);
+  filter: blur(var(--login-wallpaper-blur, 8px)) saturate(0.85);
+  opacity: var(--login-wallpaper-opacity, 0.78);
   transform: scale(1.05);
 }
 
@@ -54,9 +55,35 @@
 }
 
 .login-card {
+  position: relative;
+  isolation: isolate;
   background: linear-gradient(145deg, rgba(14, 27, 48, 0.94), rgba(8, 18, 34, 0.92));
   backdrop-filter: blur(18px);
-  animation: login-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  box-shadow: 0 32px 70px rgba(0, 0, 0, 0.5), 0 12px 24px rgba(0, 0, 0, 0.35), inset 0 1px rgba(255, 255, 255, 0.12);
+  transform-style: preserve-3d;
+  animation: login-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both, login-float 8s ease-in-out 700ms infinite alternate;
+  transition: transform 350ms ease, box-shadow 350ms ease;
+}
+
+.login-card::after {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 12% 18% -16%;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.22);
+  filter: blur(34px);
+  opacity: 0.5;
+  transform: translateZ(-20px);
+}
+
+.login-stage {
+  perspective: 1200px;
+}
+
+.login-card:hover {
+  transform: translateY(-5px) rotateX(1deg) rotateY(-1deg);
+  box-shadow: 0 42px 90px rgba(0, 0, 0, 0.58), 0 16px 32px rgba(6, 182, 212, 0.12), inset 0 1px rgba(255, 255, 255, 0.16);
 }
 
 @keyframes login-rise {
@@ -69,9 +96,69 @@
   to { transform: translate3d(5%, 4%, 0) scale(1.08); }
 }
 
+@keyframes login-float {
+  from { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+  to { transform: translateY(-5px) rotateX(0.5deg) rotateY(-0.5deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .login-card,
   .login-glow { animation: none; }
+
+  .login-card {
+    transition: none;
+  }
+}
+
+.kitchen-board .kitchen-card {
+  min-height: 0;
+}
+
+.receipt-logo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+  color: #0f172a;
+}
+
+.receipt-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  .thermal-receipt,
+  .thermal-receipt * {
+    visibility: visible !important;
+  }
+
+  .thermal-receipt {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 80mm !important;
+    max-width: 80mm !important;
+    min-height: 100mm;
+    padding: 5mm !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-size: 10px !important;
+  }
+
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
 }
 
 /* Custom scrollbars */

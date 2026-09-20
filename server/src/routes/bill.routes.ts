@@ -38,33 +38,78 @@ billRouter.get('/bills/session/:sessionId', async (req, res) => {
       return res.status(404).json({ error: 'Session not found' });
     }
 
-    // If an existing bill exists, return latest version
-    if (session.bills.length > 0) {
-      return res.json({ session, latestBill: session.bills[0], history: session.bills });
-    }
-
-    // Otherwise calculate a draft bill from all non-cancelled round items
+    // Recalculate every non-cancelled round so later orders are included automatically.
     let subtotal = 0;
-    const billItems: any[] = [];
+    const billItemsByMenuItem = new Map<string, any>();
 
     for (const round of session.orders) {
       for (const item of round.items) {
         const itemTotal = item.quantity * item.unitPrice;
         subtotal += itemTotal;
-        billItems.push({
-          menuItemId: item.menuItemId,
-          name: item.menuItem.name,
-          quantity: item.quantity,
-          unitPrice: item.unitPrice,
-          totalPrice: itemTotal,
-        });
+        const existing = billItemsByMenuItem.get(item.menuItemId);
+        if (existing) {
+          existing.quantity += item.quantity;
+          existing.totalPrice += itemTotal;
+        } else {
+          billItemsByMenuItem.set(item.menuItemId, {
+            menuItemId: item.menuItemId,
+            name: item.menuItem.name,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            totalPrice: itemTotal,
+          });
+        }
       }
     }
+
+    const billItems = Array.from(billItemsByMenuItem.values());
 
     const taxRate = session.branch.restaurant.taxRate || 5.0; // 5% default
     const taxAmount = Math.round((subtotal * (taxRate / 100)) * 100) / 100;
     const discountAmount = 0;
     const finalAmount = Math.round((subtotal + taxAmount - discountAmount) * 100) / 100;
+
+    const latestBill = session.bills[0];
+    if (latestBill) {
+      if (latestBill.status === 'PAID') {
+        return res.json({ session, latestBill, history: session.bills });
+      }
+
+      const matchesLatest =
+        latestBill.subtotal === subtotal &&
+        latestBill.taxAmount === taxAmount &&
+        latestBill.finalAmount === finalAmount &&
+        latestBill.items.length === billItems.length &&
+        billItems.every((item) => {
+          const existing = latestBill.items.find((line) => line.menuItemId === item.menuItemId);
+          return existing && existing.quantity === item.quantity && existing.totalPrice === item.totalPrice;
+        });
+
+      if (matchesLatest) {
+        return res.json({ session, latestBill, history: session.bills });
+      }
+
+      const refreshedBill = await prisma.bill.create({
+        data: {
+          sessionId: session.id,
+          version: latestBill.version + 1,
+          invoiceNumber: latestBill.invoiceNumber,
+          subtotal,
+          taxAmount,
+          discountAmount,
+          finalAmount,
+          status: 'UNPAID',
+          items: { create: billItems },
+        },
+        include: { items: true, adjustments: true, payments: true },
+      });
+
+      return res.json({
+        session,
+        latestBill: refreshedBill,
+        history: [refreshedBill, ...session.bills],
+      });
+    }
 
     // Generate random Invoice code
     const invoiceNumber = `INV-${Math.floor(100000 + Math.random() * 900000)}`;

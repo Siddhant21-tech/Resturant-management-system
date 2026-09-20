@@ -146,6 +146,7 @@ export const App: React.FC = () => {
 
     // 4. Bill Requested
     socket.on('bill:requested', (data: any) => {
+      if (currentRole !== 'admin') return;
       playNotificationSound('bill_request');
       setToast({
         id: String(Date.now()),
@@ -175,7 +176,7 @@ export const App: React.FC = () => {
       socket.off('bill:requested');
       socket.off('payment:completed');
     };
-  }, [selectedBranch]);
+  }, [currentRole, selectedBranch]);
 
   // Dismiss toast after 5 seconds
   useEffect(() => {
@@ -224,6 +225,11 @@ export const App: React.FC = () => {
         isSimulatedOffline={isSimulatedOffline}
         setIsSimulatedOffline={setIsSimulatedOffline}
         pendingOfflineCount={pendingOfflineCount}
+        allowedRoles={[currentRole]}
+        onLogout={() => {
+          setAuthenticatedUser(null);
+          setRole('waiter');
+        }}
       />
 
       {/* Main Role Experience Body */}

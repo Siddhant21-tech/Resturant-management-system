@@ -9,6 +9,7 @@ import {
   WifiOff,
   Store,
   BellRing,
+  LogOut,
 } from 'lucide-react';
 import { Branch, Restaurant } from '../types';
 
@@ -24,6 +25,8 @@ interface NavbarProps {
   isSimulatedOffline: boolean;
   setIsSimulatedOffline: (val: boolean) => void;
   pendingOfflineCount: number;
+  allowedRoles: ActiveRole[];
+  onLogout: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -36,6 +39,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   isSimulatedOffline,
   setIsSimulatedOffline,
   pendingOfflineCount,
+  allowedRoles,
+  onLogout,
 }) => {
   const roles: { id: ActiveRole; label: string; icon: React.ReactNode; desc: string }[] = [
     {
@@ -136,6 +141,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               </>
             )}
           </button>
+          <button
+            onClick={onLogout}
+            className="flex items-center gap-1.5 rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-400 transition hover:border-rose-400/50 hover:text-rose-300"
+            title="Sign out of this station"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            <span>Log out</span>
+          </button>
         </div>
       </div>
 
@@ -143,7 +156,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="bg-slate-950/60 border-t border-slate-800/80 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto scrollbar-none py-1.5 gap-1">
           <div className="flex items-center gap-1.5">
-            {roles.map((r) => {
+            {roles.filter((role) => allowedRoles.includes(role.id)).map((r) => {
               const active = currentRole === r.id;
               return (
                 <button
