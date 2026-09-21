@@ -190,7 +190,18 @@ class RestaurantDatabase {
     this.initDefaultData();
   }
 
+  private saveTimer: NodeJS.Timeout | null = null;
+
   save() {
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+    }
+    this.saveTimer = setTimeout(() => {
+      this.flushToDisk();
+    }, 80);
+  }
+
+  flushToDisk() {
     try {
       const dump = {
         restaurants: this.restaurants,
@@ -209,7 +220,9 @@ class RestaurantDatabase {
         payments: this.payments,
         auditLogs: this.auditLogs,
       };
-      fs.writeFileSync(this.dbPath, JSON.stringify(dump, null, 2));
+      const tmpPath = `${this.dbPath}.tmp`;
+      fs.writeFileSync(tmpPath, JSON.stringify(dump, null, 2), 'utf-8');
+      fs.renameSync(tmpPath, this.dbPath);
     } catch (e) {
       console.error('Error persisting database:', e);
     }
@@ -689,7 +702,7 @@ export const prisma = {
       }
       return res;
     },
-    findUnique: async (args: { where: { id: string } }) => {
+    findUnique: async (args: { where: { id: string }; include?: any }) => {
       return store.tables.find((t) => t.id === args.where.id) || null;
     },
     update: async (args: { where: { id: string }; data: Partial<Table> }) => {
@@ -767,7 +780,7 @@ export const prisma = {
       if (args?.where?.status) res = res.filter((s) => s.status === args.where.status);
       return res.length;
     },
-    findUnique: async (args: { where: { id: string } }) => {
+    findUnique: async (args: { where: { id: string }; include?: any }) => {
       const s = store.diningSessions.find((x) => x.id === args.where.id);
       if (!s) return null;
 
@@ -791,6 +804,7 @@ export const prisma = {
 
       const bills = store.bills
         .filter((b) => b.sessionId === s.id)
+        .sort((a, b) => b.version - a.version)
         .map((bill) => ({
           ...bill,
           items: store.billItems.filter((i) => i.billId === bill.id),
@@ -837,10 +851,16 @@ export const prisma = {
   orderRound: {
     create: async (args: { data: any; include?: any }) => {
       const roundId = `round_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      const existingRounds = store.orderRounds.filter((r) => r.sessionId === args.data.sessionId);
+      const requestedNumber = args.data.roundNumber;
+      const isAlreadyTaken = existingRounds.some((r) => r.roundNumber === requestedNumber);
+      const highestNumber = existingRounds.reduce((max, r) => Math.max(max, r.roundNumber), 0);
+      const roundNumber = requestedNumber && !isAlreadyTaken ? requestedNumber : highestNumber + 1;
+
       const round: OrderRound = {
         id: roundId,
         sessionId: args.data.sessionId,
-        roundNumber: args.data.roundNumber,
+        roundNumber,
         source: args.data.source || 'WAITER',
         status: args.data.status || 'SUBMITTED',
         notes: args.data.notes || null,
@@ -962,6 +982,20 @@ export const prisma = {
       if (args?.where?.status) {
         res = res.filter((b) => b.status === args.where.status);
       }
+      if (args?.where?.session?.branchId || args?.where?.branchId) {
+        const bId = args.where.branchId || args.where.session?.branchId;
+        const validSessionIds = new Set(
+          store.diningSessions.filter((s) => s.branchId === bId).map((s) => s.id)
+        );
+        res = res.filter((b) => validSessionIds.has(b.sessionId));
+      }
+      if (args?.orderBy?.version === 'desc') {
+        res = [...res].sort((a, b) => b.version - a.version);
+      } else if (args?.orderBy?.version === 'asc') {
+        res = [...res].sort((a, b) => a.version - b.version);
+      } else if (args?.orderBy?.createdAt === 'desc') {
+        res = [...res].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      }
       return res.map((b) => ({
         ...b,
         items: store.billItems.filter((i) => i.billId === b.id),
@@ -1053,7 +1087,17 @@ export const prisma = {
 
   payment: {
     findMany: async (args?: any) => {
-      let res = store.payments;
+      let res = [...store.payments];
+      if (args?.where?.branchId) {
+        const bId = args.where.branchId;
+        res = res.filter((p) => {
+          const bill = store.bills.find((b) => b.id === p.billId);
+          const session = bill ? store.diningSessions.find((s) => s.id === bill.sessionId) : null;
+          return session?.branchId === bId;
+        });
+      }
+      // Sort newest first
+      res.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       if (args?.take) res = res.slice(0, args.take);
       return res.map((p) => {
         const bill = store.bills.find((b) => b.id === p.billId);

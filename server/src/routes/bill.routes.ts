@@ -64,7 +64,7 @@ billRouter.get('/bills/session/:sessionId', async (req, res) => {
 
     const billItems = Array.from(billItemsByMenuItem.values());
 
-    const taxRate = session.branch.restaurant.taxRate || 5.0; // 5% default
+    const taxRate = session.branch?.restaurant?.taxRate || 5.0; // 5% default
     const taxAmount = Math.round((subtotal * (taxRate / 100)) * 100) / 100;
     const discountAmount = 0;
     const finalAmount = Math.round((subtotal + taxAmount - discountAmount) * 100) / 100;
@@ -75,19 +75,27 @@ billRouter.get('/bills/session/:sessionId', async (req, res) => {
         return res.json({ session, latestBill, history: session.bills });
       }
 
-      const matchesLatest =
-        latestBill.subtotal === subtotal &&
-        latestBill.taxAmount === taxAmount &&
-        latestBill.finalAmount === finalAmount &&
-        latestBill.items.length === billItems.length &&
-        billItems.every((item) => {
-          const existing = latestBill.items.find((line) => line.menuItemId === item.menuItemId);
-          return existing && existing.quantity === item.quantity && existing.totalPrice === item.totalPrice;
-        });
+      // Check if any order items were created after the latest bill was generated/updated
+      const billTimestamp = new Date(latestBill.updatedAt || latestBill.createdAt).getTime();
+      const hasNewOrderItems = session.orders.some((round) =>
+        round.items.some(
+          (item) => new Date(item.createdAt).getTime() > billTimestamp
+        )
+      );
 
-      if (matchesLatest) {
+      // If no new order items were placed, return latestBill with all manual edits/discounts intact!
+      if (!hasNewOrderItems) {
         return res.json({ session, latestBill, history: session.bills });
       }
+
+      // If NEW items WERE ordered after bill was created, carry forward existing discount & tax rate
+      const preservedDiscount = Number(latestBill.discountAmount || 0);
+      const preservedTaxRate =
+        latestBill.subtotal > 0 && latestBill.taxAmount > 0
+          ? (latestBill.taxAmount / latestBill.subtotal) * 100
+          : session.branch?.restaurant?.taxRate || 5.0;
+      const updatedTax = Math.round((subtotal * (preservedTaxRate / 100)) * 100) / 100;
+      const updatedFinal = Math.max(0, Math.round((subtotal + updatedTax - preservedDiscount) * 100) / 100);
 
       const refreshedBill = await prisma.bill.create({
         data: {
@@ -95,9 +103,9 @@ billRouter.get('/bills/session/:sessionId', async (req, res) => {
           version: latestBill.version + 1,
           invoiceNumber: latestBill.invoiceNumber,
           subtotal,
-          taxAmount,
-          discountAmount,
-          finalAmount,
+          taxAmount: updatedTax,
+          discountAmount: preservedDiscount,
+          finalAmount: updatedFinal,
           status: 'UNPAID',
           items: { create: billItems },
         },
@@ -147,7 +155,15 @@ billRouter.get('/bills/session/:sessionId', async (req, res) => {
 billRouter.post('/bills/:billId/adjust', async (req, res) => {
   try {
     const { billId } = req.params;
-    const { type, reason, discountAmount = 0, taxRate, modifiedItems, userId = 'Cashier Staff' } = req.body;
+    const {
+      type,
+      reason,
+      discountAmount = 0,
+      discountPercent,
+      taxRate,
+      modifiedItems,
+      userId = 'Cashier Staff',
+    } = req.body;
 
     if (!reason) {
       return res.status(400).json({ error: 'A mandatory reason is required for bill adjustments.' });
@@ -201,10 +217,23 @@ billRouter.post('/bills/:billId/adjust', async (req, res) => {
     }
 
     const newTaxRate = taxRate === undefined
-      ? currentBill.session.branch.restaurant.taxRate || 5.0
+      ? currentBill.session?.branch?.restaurant?.taxRate || 5.0
       : Math.max(0, Number(taxRate));
     const newTax = Math.round((newSubtotal * (newTaxRate / 100)) * 100) / 100;
-    const newDiscount = Number(discountAmount);
+
+    let rawDiscount = 0;
+    if (discountPercent !== undefined && discountPercent !== null) {
+      const p = Math.max(0, Math.min(100, Number(discountPercent)));
+      rawDiscount = Math.round((newSubtotal * (p / 100)) * 100) / 100;
+    } else {
+      rawDiscount = Number(discountAmount || 0);
+    }
+
+    if (isNaN(rawDiscount) || rawDiscount < 0) {
+      return res.status(400).json({ error: 'Discount amount cannot be negative or invalid.' });
+    }
+    const maxAllowed = Math.round((newSubtotal + newTax) * 100) / 100;
+    const newDiscount = Math.min(rawDiscount, maxAllowed);
     const newFinal = Math.max(0, Math.round((newSubtotal + newTax - newDiscount) * 100) / 100);
 
     // Create New Bill Version (Immutable History)
@@ -238,27 +267,29 @@ billRouter.post('/bills/:billId/adjust', async (req, res) => {
       },
     });
 
-    // Also write into Restaurant Audit Log
-    await prisma.auditLog.create({
-      data: {
-        restaurantId: currentBill.session.branch.restaurantId,
-        branchId: currentBill.session.branchId,
-        userId: userId,
-        action: `BILL_ADJUSTED_V${nextVersion}`,
-        detailsJson: JSON.stringify({
-          invoiceNumber: currentBill.invoiceNumber,
-          oldAmount: currentBill.finalAmount,
-          newAmount: newFinal,
-          reason,
-          type,
-        }),
-      },
-    });
+    if (currentBill.session) {
+      // Also write into Restaurant Audit Log
+      await prisma.auditLog.create({
+        data: {
+          restaurantId: currentBill.session.branch?.restaurantId || '',
+          branchId: currentBill.session.branchId,
+          userId: userId,
+          action: `BILL_ADJUSTED_V${nextVersion}`,
+          detailsJson: JSON.stringify({
+            invoiceNumber: currentBill.invoiceNumber,
+            oldAmount: currentBill.finalAmount,
+            newAmount: newFinal,
+            reason,
+            type,
+          }),
+        },
+      });
 
-    emitToBranch(currentBill.session.branchId, 'bill:updated', {
-      tableNumber: currentBill.session.table.number,
-      bill: newBill,
-    });
+      emitToBranch(currentBill.session.branchId, 'bill:updated', {
+        tableNumber: currentBill.session.table?.number || 'Table ?',
+        bill: newBill,
+      });
+    }
 
     res.status(201).json(newBill);
   } catch (error: any) {
@@ -318,6 +349,10 @@ billRouter.post('/bills/:billId/pay', async (req, res) => {
       },
     });
 
+    if (!bill.session) {
+      return res.json({ message: 'Payment recorded', payment, bill: updatedBill });
+    }
+
     // 4. Liberate Table back to AVAILABLE
     await prisma.table.update({
       where: { id: bill.session.tableId },
@@ -330,7 +365,7 @@ billRouter.post('/bills/:billId/pay', async (req, res) => {
     // 5. Create Audit Record
     await prisma.auditLog.create({
       data: {
-        restaurantId: bill.session.branch.restaurantId,
+        restaurantId: bill.session.branch?.restaurantId || '',
         branchId: bill.session.branchId,
         userId: receivedByUserId,
         action: 'PAYMENT_RECEIVED',
@@ -338,7 +373,7 @@ billRouter.post('/bills/:billId/pay', async (req, res) => {
           invoiceNumber: bill.invoiceNumber,
           amount: bill.finalAmount,
           method,
-          table: bill.session.table.number,
+          table: bill.session.table?.number || 'Table ?',
         }),
       },
     });
@@ -349,7 +384,7 @@ billRouter.post('/bills/:billId/pay', async (req, res) => {
 
     emitToBranch(branchId, 'payment:completed', {
       tableId,
-      tableNumber: bill.session.table.number,
+      tableNumber: bill.session.table?.number || 'Table ?',
       invoiceNumber: bill.invoiceNumber,
       amount: bill.finalAmount,
       method,

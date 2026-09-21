@@ -8,10 +8,10 @@ import {
   Wifi,
   WifiOff,
   Store,
-  BellRing,
   LogOut,
 } from 'lucide-react';
 import { Branch, Restaurant } from '../types';
+import { ThemeToggle } from './common/ThemeToggle';
 
 export type ActiveRole = 'waiter' | 'kitchen' | 'cashier' | 'customer' | 'admin';
 
@@ -141,6 +141,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </>
             )}
           </button>
+          <ThemeToggle showLabel={false} />
           <button
             onClick={onLogout}
             className="flex items-center gap-1.5 rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-400 transition hover:border-rose-400/50 hover:text-rose-300"

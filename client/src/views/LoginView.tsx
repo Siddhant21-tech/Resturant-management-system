@@ -8,12 +8,15 @@ import {
   ShieldCheck,
   Sparkles,
   Utensils,
-  Upload,
-  X,
 } from 'lucide-react';
 import { Branch, Restaurant, User } from '../types';
-
-type LoginRole = 'manager' | 'waiter' | 'kitchen';
+import {
+  LoginRole,
+  RoleOption,
+  LoginRoleSelector,
+} from '../components/login/LoginRoleSelector';
+import { WallpaperSettingsModal } from '../components/login/WallpaperSettingsModal';
+import { ThemeToggle } from '../components/common/ThemeToggle';
 
 interface LoginViewProps {
   restaurant: Restaurant | null;
@@ -23,10 +26,25 @@ interface LoginViewProps {
   onLogin: (user: User, role: LoginRole) => void;
 }
 
-const roleOptions: { id: LoginRole; label: string; description: string; icon: React.ReactNode }[] = [
-  { id: 'manager', label: 'Manager', description: 'Full access', icon: <ShieldCheck className="h-5 w-5" /> },
-  { id: 'waiter', label: 'Waiter', description: 'Floor service', icon: <Utensils className="h-5 w-5" /> },
-  { id: 'kitchen', label: 'Kitchen', description: 'KDS station', icon: <ChefHat className="h-5 w-5" /> },
+const roleOptions: RoleOption[] = [
+  {
+    id: 'manager',
+    label: 'Manager',
+    description: 'Full access',
+    icon: <ShieldCheck className="h-5 w-5" />,
+  },
+  {
+    id: 'waiter',
+    label: 'Waiter',
+    description: 'Floor service',
+    icon: <Utensils className="h-5 w-5" />,
+  },
+  {
+    id: 'kitchen',
+    label: 'Kitchen',
+    description: 'KDS station',
+    icon: <ChefHat className="h-5 w-5" />,
+  },
 ];
 
 const roleToUserRole: Record<LoginRole, User['role']> = {
@@ -35,16 +53,23 @@ const roleToUserRole: Record<LoginRole, User['role']> = {
   kitchen: 'KITCHEN_STAFF',
 };
 
-export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users, isLoading, onLogin }) => {
+export const LoginView: React.FC<LoginViewProps> = ({
+  restaurant,
+  users,
+  isLoading,
+  onLogin,
+}) => {
   const [selectedRole, setSelectedRole] = useState<LoginRole>('waiter');
   const [operator, setOperator] = useState('');
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [showPin, setShowPin] = useState(false);
   const [showWallpaperEditor, setShowWallpaperEditor] = useState(false);
+
   const wallpaperStorageKey = `restaurant-wallpaper:${restaurant?.id || 'default'}`;
   const opacityStorageKey = `restaurant-wallpaper-opacity:${restaurant?.id || 'default'}`;
   const blurStorageKey = `restaurant-wallpaper-blur:${restaurant?.id || 'default'}`;
+
   const [wallpaper, setWallpaper] = useState(() => {
     if (typeof window === 'undefined') return restaurant?.wallpaperUrl || '';
     return window.localStorage.getItem(wallpaperStorageKey) || restaurant?.wallpaperUrl || '';
@@ -90,7 +115,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users,
     onLogin(user, selectedRole);
   };
 
-  const backdrop = wallpaper || restaurant?.wallpaperUrl ||
+  const backdrop =
+    wallpaper ||
+    restaurant?.wallpaperUrl ||
     'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2200&q=85';
 
   const handleWallpaperUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,18 +138,26 @@ export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users,
     window.localStorage.removeItem(wallpaperStorageKey);
   };
 
-  const saveWallpaperSetting = (key: string, value: number) => {
-    window.localStorage.setItem(key, String(value));
+  const handleOpacityChange = (value: number) => {
+    setWallpaperOpacity(value);
+    window.localStorage.setItem(opacityStorageKey, String(value));
+  };
+
+  const handleBlurChange = (value: number) => {
+    setWallpaperBlur(value);
+    window.localStorage.setItem(blurStorageKey, String(value));
   };
 
   return (
     <main
       className="login-shell relative min-h-screen overflow-hidden bg-[#07131f] text-white"
-      style={{
-        '--login-backdrop': `url("${backdrop}")`,
-        '--login-wallpaper-opacity': wallpaperOpacity,
-        '--login-wallpaper-blur': `${wallpaperBlur}px`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--login-backdrop': `url("${backdrop}")`,
+          '--login-wallpaper-opacity': wallpaperOpacity,
+          '--login-wallpaper-blur': `${wallpaperBlur}px`,
+        } as React.CSSProperties
+      }
     >
       <div className="login-backdrop" aria-hidden="true" />
       <div className="login-grid" aria-hidden="true" />
@@ -134,18 +169,19 @@ export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users,
           <div className="rounded-full border border-cyan-300/15 bg-[#071c2b]/80 px-3 py-1.5 text-slate-200 shadow-lg shadow-black/10 backdrop-blur-md">
             <span className="mr-1.5 text-cyan-300">▣</span>
             {restaurant?.name || 'Restaurant'}
-            <span className="mx-1.5 text-slate-600">•</span>
-            <span className="text-emerald-300">Cloud POS Active</span>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowWallpaperEditor(true)}
-            className="hidden rounded-full border border-cyan-300/15 bg-[#071c2b]/80 px-3 py-1.5 text-slate-300 shadow-lg shadow-black/10 backdrop-blur-md transition hover:border-emerald-300/60 hover:text-white sm:block"
-            title="Customize this restaurant's login wallpaper"
-          >
-            <span className="mr-1.5 text-cyan-300">▧</span>
-            Hotel Wallpaper <span className="ml-1 text-emerald-300">Customize</span>
-          </button>
+          <div className="flex items-center gap-1.5">
+            <ThemeToggle showLabel={false} />
+            <button
+              type="button"
+              onClick={() => setShowWallpaperEditor(true)}
+              className="hidden rounded-full border border-cyan-300/15 bg-[#071c2b]/80 px-3 py-1.5 text-slate-300 shadow-lg shadow-black/10 backdrop-blur-md transition hover:border-emerald-300/60 hover:text-white sm:block"
+              title="Customize this restaurant's login wallpaper"
+            >
+              <span className="mr-1.5 text-cyan-300">▧</span>
+              Wallpaper
+            </button>
+          </div>
         </div>
 
         <div className="login-card w-full max-w-[374px] rounded-[14px] border border-slate-500/50 p-5 shadow-2xl shadow-black/50 sm:p-6">
@@ -158,50 +194,27 @@ export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users,
                 Gusto<span className="text-emerald-400">OS</span>
               </h1>
             </div>
-            <p className="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-500">Restaurant platform</p>
-            <p className="mt-2 text-[11px] font-semibold text-slate-300">Select your shift role to access station terminal</p>
+            <p className="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-500">
+              Restaurant platform
+            </p>
+            <p className="mt-2 text-[11px] font-semibold text-slate-300">
+              Select your shift role to access station terminal
+            </p>
           </div>
 
-          <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-            <span>Sign in as</span>
-            <span className="normal-case tracking-normal text-emerald-400">3 roles available</span>
-          </div>
-
-          <div className="mb-2 grid grid-cols-3 gap-1.5" role="tablist" aria-label="Staff role">
-            {roleOptions.map((role) => {
-              const isActive = role.id === selectedRole;
-              return (
-                <button
-                  key={role.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => selectRole(role.id)}
-                  className={`relative flex min-h-[84px] flex-col items-center justify-center gap-1 rounded-xl border px-1.5 py-2 text-center transition duration-200 ${
-                    isActive
-                      ? 'border-emerald-400 bg-emerald-400/10 text-emerald-100 shadow-lg shadow-emerald-950/25'
-                      : 'border-slate-600/70 bg-slate-800/50 text-slate-400 hover:border-slate-400 hover:text-white'
-                  }`}
-                >
-                  {isActive && <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-400 text-[10px] font-black text-[#05221d]">✓</span>}
-                  {role.icon}
-                  <span className="text-[11px] font-bold">{role.label}</span>
-                  <span className="text-[8px] text-slate-500">{role.description}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="mb-3 flex items-center justify-between rounded-lg border border-slate-600/70 bg-slate-800/60 px-2.5 py-1.5 text-[10px]">
-            <span className="font-bold text-emerald-300">{selectedRoleOption.label}:</span>
-            <span className="truncate px-2 text-slate-300">{selectedRoleOption.description}</span>
-            <span className="rounded bg-emerald-400/15 px-1.5 py-0.5 text-[9px] font-bold text-emerald-300">
-              {selectedRole === 'kitchen' ? 'KDS' : selectedRole === 'waiter' ? 'Floor' : 'Admin'}
-            </span>
-          </div>
+          <LoginRoleSelector
+            roleOptions={roleOptions}
+            selectedRole={selectedRole}
+            onSelectRole={selectRole}
+          />
 
           <form onSubmit={handleSubmit}>
-            <label htmlFor="staff-operator" className="mb-1.5 block text-[10px] font-bold text-slate-300">Staff Name / Operator ID</label>
+            <label
+              htmlFor="staff-operator"
+              className="mb-1.5 block text-[10px] font-bold text-slate-300"
+            >
+              Staff Name / Operator ID
+            </label>
             <input
               id="staff-operator"
               value={activeOperator}
@@ -215,7 +228,12 @@ export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users,
             />
 
             <div className="mb-1.5 flex items-center justify-between">
-              <label htmlFor="staff-pin" className="block text-[10px] font-bold text-slate-300">Station Passcode / PIN</label>
+              <label
+                htmlFor="staff-pin"
+                className="block text-[10px] font-bold text-slate-300"
+              >
+                Station Passcode / PIN
+              </label>
               <span className="text-[8px] font-bold text-emerald-400">PIN required</span>
             </div>
             <div className="relative">
@@ -234,7 +252,12 @@ export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users,
                 className="h-9 w-full rounded-lg border border-slate-600 bg-[#060f1f]/80 pl-9 pr-9 text-sm tracking-[0.35em] text-white outline-none transition placeholder:text-xs placeholder:tracking-normal placeholder:text-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/10"
                 required
               />
-              <button type="button" onClick={() => setShowPin(!showPin)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-200" aria-label={showPin ? 'Hide PIN' : 'Show PIN'}>
+              <button
+                type="button"
+                onClick={() => setShowPin(!showPin)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-200"
+                aria-label={showPin ? 'Hide PIN' : 'Show PIN'}
+              >
                 {showPin ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
               </button>
             </div>
@@ -252,7 +275,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users,
               Auto-fill demo credentials for {selectedRoleOption.label}
             </button>
 
-            <div className="mt-2 min-h-4 text-[10px] text-rose-300" role="alert">{error}</div>
+            <div className="mt-2 min-h-4 text-[10px] text-rose-300" role="alert">
+              {error}
+            </div>
 
             <button
               type="submit"
@@ -260,88 +285,37 @@ export const LoginView: React.FC<LoginViewProps> = ({ restaurant, branch, users,
               className="group mt-1 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-emerald-400 to-teal-500 text-xs font-black text-[#03231e] shadow-xl shadow-emerald-950/30 transition hover:from-emerald-300 hover:to-teal-400 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? 'Connecting...' : `Sign in as ${selectedRoleOption.label}`}
-              {!isLoading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />}
+              {!isLoading && (
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              )}
             </button>
           </form>
 
           <div className="mt-4 flex items-center justify-between border-t border-slate-700/70 pt-3 text-[9px] text-slate-500">
-            <span><span className="text-emerald-400">▣</span> Shift Station Terminal</span>
+            <span>
+              <span className="text-emerald-400">▣</span> Shift Station Terminal
+            </span>
             <span>v4.8 • GustoOS</span>
           </div>
         </div>
       </section>
 
-      {showWallpaperEditor && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-5 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-2xl border border-slate-600 bg-[#0b1b2d] p-5 shadow-2xl">
-            <div className="mb-4 flex items-start justify-between">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-300">{restaurant?.name || 'Restaurant'}</p>
-                <h2 className="mt-1 text-lg font-black text-white">Customize login wallpaper</h2>
-                <p className="mt-1 text-xs text-slate-400">Saved only for this restaurant on this browser.</p>
-              </div>
-              <button type="button" onClick={() => setShowWallpaperEditor(false)} className="text-slate-400 hover:text-white" aria-label="Close wallpaper editor">
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-
-            <label className="flex h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-600 bg-slate-900/60 text-xs font-bold text-slate-300 transition hover:border-emerald-400 hover:text-emerald-300">
-              <Upload className="h-5 w-5" />
-              Upload hotel image
-              <input type="file" accept="image/*" onChange={handleWallpaperUpload} className="hidden" />
-            </label>
-
-            <div className="my-3 flex items-center gap-2 text-[10px] text-slate-500"><span className="h-px flex-1 bg-slate-700" />or use image URL<span className="h-px flex-1 bg-slate-700" /></div>
-            <input
-              value={wallpaper.startsWith('data:') ? '' : wallpaper}
-              onChange={(event) => {
-                setWallpaper(event.target.value);
-                window.localStorage.setItem(wallpaperStorageKey, event.target.value);
-              }}
-              placeholder="https://..."
-              className="h-10 w-full rounded-lg border border-slate-600 bg-[#060f1f] px-3 text-xs text-white outline-none focus:border-emerald-400"
-            />
-            <div className="mt-4 space-y-4">
-              <label className="block text-xs font-bold text-slate-300">
-                Wallpaper opacity <span className="float-right text-emerald-300">{Math.round(wallpaperOpacity * 100)}%</span>
-                <input
-                  type="range"
-                  min="0.2"
-                  max="1"
-                  step="0.01"
-                  value={wallpaperOpacity}
-                  onChange={(event) => {
-                    const value = Number(event.target.value);
-                    setWallpaperOpacity(value);
-                    saveWallpaperSetting(opacityStorageKey, value);
-                  }}
-                  className="mt-2 w-full accent-emerald-400"
-                />
-              </label>
-              <label className="block text-xs font-bold text-slate-300">
-                Wallpaper blur <span className="float-right text-emerald-300">{wallpaperBlur}px</span>
-                <input
-                  type="range"
-                  min="0"
-                  max="24"
-                  step="1"
-                  value={wallpaperBlur}
-                  onChange={(event) => {
-                    const value = Number(event.target.value);
-                    setWallpaperBlur(value);
-                    saveWallpaperSetting(blurStorageKey, value);
-                  }}
-                  className="mt-2 w-full accent-emerald-400"
-                />
-              </label>
-            </div>
-            <div className="mt-4 flex justify-end gap-2">
-              <button type="button" onClick={resetWallpaper} className="rounded-lg px-3 py-2 text-xs font-bold text-slate-400 hover:text-rose-300">Reset</button>
-              <button type="button" onClick={() => setShowWallpaperEditor(false)} className="rounded-lg bg-emerald-400 px-4 py-2 text-xs font-black text-[#03231e]">Save wallpaper</button>
-            </div>
-          </div>
-        </div>
-      )}
+      <WallpaperSettingsModal
+        isOpen={showWallpaperEditor}
+        restaurant={restaurant}
+        wallpaper={wallpaper}
+        wallpaperOpacity={wallpaperOpacity}
+        wallpaperBlur={wallpaperBlur}
+        onWallpaperChange={(val) => {
+          setWallpaper(val);
+          window.localStorage.setItem(wallpaperStorageKey, val);
+        }}
+        onOpacityChange={handleOpacityChange}
+        onBlurChange={handleBlurChange}
+        onReset={resetWallpaper}
+        onClose={() => setShowWallpaperEditor(false)}
+        onFileUpload={handleWallpaperUpload}
+      />
     </main>
   );
 };

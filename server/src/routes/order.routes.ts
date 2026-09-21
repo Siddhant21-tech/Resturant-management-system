@@ -8,7 +8,7 @@ export const orderRouter = Router();
 // Checks whether an order item can be modified or cancelled
 export const canModifyItem = (item: {
   status: string;
-  acceptedAt: Date | null;
+  acceptedAt?: Date | null;
   createdAt: Date;
 }): { allowed: boolean; reason?: string; secondsRemaining?: number } => {
   const LOCKED_STATUSES = ['READY', 'SERVED', 'CANCELLED'];
@@ -50,6 +50,21 @@ orderRouter.post('/orders', async (req, res) => {
       return res.status(404).json({ error: 'Active dining session not found' });
     }
 
+    if (session.status === 'COMPLETED' || session.status === 'CANCELLED') {
+      return res.status(400).json({ error: `Cannot add orders to a ${session.status.toLowerCase()} dining session` });
+    }
+
+    // Strict item validation
+    for (const i of items) {
+      if (!i.menuItemId || typeof i.menuItemId !== 'string') {
+        return res.status(400).json({ error: 'Each item must have a valid menuItemId string' });
+      }
+      const qty = Number(i.quantity);
+      if (!Number.isInteger(qty) || qty <= 0 || qty > 100) {
+        return res.status(400).json({ error: `Invalid quantity for item ${i.menuItemId}. Must be an integer between 1 and 100.` });
+      }
+    }
+
     const nextRoundNumber = session.orders.length + 1;
 
     // Retrieve menuItem details for prices and stations
@@ -61,16 +76,19 @@ orderRouter.post('/orders', async (req, res) => {
 
     const menuItemMap = new Map(menuItems.map((m) => [m.id, m]));
 
+    for (const i of items) {
+      if (!menuItemMap.has(i.menuItemId)) {
+        return res.status(400).json({ error: `Menu item not found: ${i.menuItemId}` });
+      }
+    }
+
     // Construct order items with station routing
     const orderItemsData = items.map((i: any) => {
-      const menu = menuItemMap.get(i.menuItemId);
-      if (!menu) {
-        throw new Error(`Menu item not found: ${i.menuItemId}`);
-      }
+      const menu = menuItemMap.get(i.menuItemId)!;
       return {
         menuItemId: menu.id,
         stationId: menu.stationId,
-        quantity: i.quantity || 1,
+        quantity: Math.floor(Number(i.quantity)),
         unitPrice: menu.price,
         notes: i.notes || null,
         status: 'PENDING',
@@ -100,10 +118,11 @@ orderRouter.post('/orders', async (req, res) => {
 
     // Real-time notification:
     // 1. Notify the entire branch (waiters, cashier)
+    const tableNumber = session.table?.number || 'Table ?';
     emitToBranch(session.branchId, 'order:created', {
       branchId: session.branchId,
       tableId: session.tableId,
-      tableNumber: session.table.number,
+      tableNumber,
       sessionId: session.id,
       sessionCode: session.sessionCode,
       round: newRound,
@@ -113,7 +132,7 @@ orderRouter.post('/orders', async (req, res) => {
     for (const item of newRound.items) {
       if (item.stationId) {
         emitToStation(item.stationId, 'station:new_item', {
-          tableNumber: session.table.number,
+          tableNumber,
           sessionCode: session.sessionCode,
           roundNumber: newRound.roundNumber,
           item,
@@ -202,21 +221,32 @@ orderRouter.put('/orders/items/:itemId', async (req, res) => {
       });
     }
 
+    if (quantity !== undefined) {
+      const q = Number(quantity);
+      if (!Number.isInteger(q) || q <= 0 || q > 100) {
+        return res.status(400).json({ error: 'Quantity must be an integer between 1 and 100' });
+      }
+    }
+
     const updated = await prisma.orderItem.update({
       where: { id: itemId },
       data: {
-        quantity: quantity !== undefined ? quantity : item.quantity,
+        quantity: quantity !== undefined ? Math.floor(Number(quantity)) : item.quantity,
         notes: notes !== undefined ? notes : item.notes,
       },
       include: { menuItem: true, station: true },
     });
 
     // Broadcast change
-    emitToBranch(item.round.session.branchId, 'item:modified', {
-      itemId,
-      updated,
-      tableNumber: item.round.session.table.number,
-    });
+    const branchId = item.round?.session?.branchId;
+    const tableNumber = item.round?.session?.table?.number || 'Table ?';
+    if (branchId) {
+      emitToBranch(branchId, 'item:modified', {
+        itemId,
+        updated,
+        tableNumber,
+      });
+    }
 
     res.json({
       message: 'Item modified successfully',
@@ -265,11 +295,15 @@ orderRouter.delete('/orders/items/:itemId', async (req, res) => {
       include: { menuItem: true, station: true },
     });
 
-    emitToBranch(item.round.session.branchId, 'item:cancelled', {
-      itemId,
-      tableNumber: item.round.session.table.number,
-      reason,
-    });
+    const branchId = item.round?.session?.branchId;
+    const tableNumber = item.round?.session?.table?.number || 'Table ?';
+    if (branchId) {
+      emitToBranch(branchId, 'item:cancelled', {
+        itemId,
+        tableNumber,
+        reason,
+      });
+    }
 
     res.json({ message: 'Item cancelled successfully', item: updated });
   } catch (error: any) {
@@ -319,27 +353,29 @@ orderRouter.patch('/orders/items/:itemId/status', async (req, res) => {
       include: { menuItem: true, station: true },
     });
 
-    const branchId = currentItem.round.session.branchId;
-    const tableNumber = currentItem.round.session.table.number;
+    const branchId = currentItem.round?.session?.branchId;
+    const tableNumber = currentItem.round?.session?.table?.number || 'Table ?';
 
     // Real-time broadcast to Waiter Tablet and Cashier
-    emitToBranch(branchId, 'item:status_changed', {
-      itemId: updatedItem.id,
-      roundId: currentItem.roundId,
-      status: updatedItem.status,
-      itemName: currentItem.menuItem.name,
-      tableNumber,
-      acceptedAt: updatedItem.acceptedAt,
-      preparedAt: updatedItem.preparedAt,
-    });
-
-    // If READY, alert waiter tablet specifically
-    if (status === 'READY') {
-      emitToBranch(branchId, 'waiter:item_ready', {
-        tableNumber,
+    if (branchId) {
+      emitToBranch(branchId, 'item:status_changed', {
+        itemId: updatedItem.id,
+        roundId: currentItem.roundId,
+        status: updatedItem.status,
         itemName: currentItem.menuItem.name,
-        quantity: currentItem.quantity,
+        tableNumber,
+        acceptedAt: updatedItem.acceptedAt,
+        preparedAt: updatedItem.preparedAt,
       });
+
+      // If READY, alert waiter tablet specifically
+      if (status === 'READY') {
+        emitToBranch(branchId, 'waiter:item_ready', {
+          tableNumber,
+          itemName: currentItem.menuItem.name,
+          quantity: currentItem.quantity,
+        });
+      }
     }
 
     res.json(updatedItem);

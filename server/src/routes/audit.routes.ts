@@ -42,7 +42,8 @@ auditRouter.get('/analytics/overview', async (req, res) => {
         include: { payments: true },
       }),
       prisma.payment.findMany({
-        take: 10,
+        where: branchFilter,
+        take: 15,
         orderBy: { createdAt: 'desc' },
         include: { bill: { include: { session: { include: { table: true } } } } },
       }),

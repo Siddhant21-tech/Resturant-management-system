@@ -6,7 +6,7 @@
       "slug": "the-velvet-bistro",
       "taxRate": 5,
       "currency": "₹",
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "rest-spice-02",
@@ -14,7 +14,7 @@
       "slug": "spice-symphony",
       "taxRate": 5,
       "currency": "₹",
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     }
   ],
   "branches": [
@@ -25,7 +25,7 @@
       "address": "42 Promenade Avenue, Connaught Place",
       "phone": "+91 98765 43210",
       "isActive": true,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "branch-midtown-02",
@@ -34,7 +34,7 @@
       "address": "Skydeck Level 14, Business Bay",
       "phone": "+91 98765 43211",
       "isActive": true,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     }
   ],
   "kitchenStations": [
@@ -44,7 +44,7 @@
       "name": "Main Kitchen",
       "colorCode": "#f97316",
       "sortOrder": 1,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "station-bar",
@@ -52,7 +52,7 @@
       "name": "Bar & Beverage",
       "colorCode": "#3b82f6",
       "sortOrder": 2,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "station-dessert",
@@ -60,7 +60,7 @@
       "name": "Dessert & Bakery",
       "colorCode": "#ec4899",
       "sortOrder": 3,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "station-starter",
@@ -68,7 +68,7 @@
       "name": "Starters & Pantry",
       "colorCode": "#10b981",
       "sortOrder": 4,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     }
   ],
   "tables": [
@@ -78,9 +78,9 @@
       "number": "Table 15",
       "capacity": 4,
       "zone": "Main Dining",
-      "status": "AVAILABLE",
-      "currentSessionId": null,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "status": "OCCUPIED",
+      "currentSessionId": "session-s10045",
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "table-01",
@@ -90,7 +90,7 @@
       "zone": "Window View",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "table-02",
@@ -100,7 +100,7 @@
       "zone": "Main Dining",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "table-03",
@@ -110,7 +110,7 @@
       "zone": "Family Booth",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "table-04",
@@ -120,7 +120,7 @@
       "zone": "Patio Terrace",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "table-05",
@@ -130,7 +130,7 @@
       "zone": "Patio Terrace",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "table-06",
@@ -140,7 +140,7 @@
       "zone": "VIP Lounge",
       "status": "AVAILABLE",
       "currentSessionId": null,
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     }
   ],
   "users": [
@@ -152,7 +152,7 @@
       "email": "rahul@velvetbistro.com",
       "role": "WAITER",
       "pinCode": "1001",
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "user-sarah",
@@ -162,7 +162,7 @@
       "email": "sarah@velvetbistro.com",
       "role": "WAITER",
       "pinCode": "1002",
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "user-mario",
@@ -172,7 +172,7 @@
       "email": "mario@velvetbistro.com",
       "role": "KITCHEN_STAFF",
       "pinCode": "2001",
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "user-priya",
@@ -182,7 +182,7 @@
       "email": "priya@velvetbistro.com",
       "role": "CASHIER",
       "pinCode": "3001",
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     },
     {
       "id": "user-vikram",
@@ -192,7 +192,7 @@
       "email": "vikram@velvetbistro.com",
       "role": "MANAGER",
       "pinCode": "9999",
-      "createdAt": "2026-09-20T14:24:21.865Z"
+      "createdAt": "2026-09-21T09:43:53.147Z"
     }
   ],
   "menuCategories": [
@@ -345,9 +345,9 @@
       "waiterId": "user-rahul",
       "sessionCode": "S-10045",
       "guestCount": 2,
-      "status": "COMPLETED",
-      "startedAt": "2026-09-20T14:19:21.865Z",
-      "closedAt": "2026-09-20T14:27:21.225Z"
+      "status": "ACTIVE",
+      "startedAt": "2026-09-21T09:38:53.147Z",
+      "closedAt": null
     }
   ],
   "orderRounds": [
@@ -358,8 +358,8 @@
       "source": "WAITER",
       "status": "ACCEPTED",
       "notes": "Customer requested extra crispy crust",
-      "submittedAt": "2026-09-20T14:23:41.865Z",
-      "acceptedAt": "2026-09-20T14:23:46.865Z"
+      "submittedAt": "2026-09-21T09:43:13.147Z",
+      "acceptedAt": "2026-09-21T09:43:18.147Z"
     }
   ],
   "orderItems": [
@@ -371,10 +371,10 @@
       "quantity": 2,
       "unitPrice": 300,
       "notes": "Extra crispy",
-      "status": "ACCEPTED",
-      "acceptedAt": "2026-09-20T14:23:46.865Z",
-      "preparedAt": null,
-      "createdAt": "2026-09-20T14:23:41.865Z"
+      "status": "READY",
+      "acceptedAt": "2026-09-21T09:43:18.147Z",
+      "preparedAt": "2026-09-21T09:45:24.636Z",
+      "createdAt": "2026-09-21T09:43:13.147Z"
     },
     {
       "id": "item-coke-1",
@@ -384,31 +384,31 @@
       "quantity": 2,
       "unitPrice": 80,
       "notes": "With ice and lemon",
-      "status": "PREPARING",
-      "acceptedAt": "2026-09-20T14:23:46.865Z",
-      "preparedAt": null,
-      "createdAt": "2026-09-20T14:23:41.865Z"
+      "status": "READY",
+      "acceptedAt": "2026-09-21T09:43:18.147Z",
+      "preparedAt": "2026-09-21T09:45:24.631Z",
+      "createdAt": "2026-09-21T09:43:13.147Z"
     }
   ],
   "bills": [
     {
-      "id": "bill_1789914422732_6bbi",
+      "id": "bill_1789983904052_kudu",
       "sessionId": "session-s10045",
       "version": 1,
-      "invoiceNumber": "INV-420643",
+      "invoiceNumber": "INV-754081",
       "subtotal": 760,
       "taxAmount": 38,
       "discountAmount": 0,
       "finalAmount": 798,
-      "status": "PAID",
-      "createdAt": "2026-09-20T14:27:02.732Z",
-      "updatedAt": "2026-09-20T14:27:21.224Z"
+      "status": "UNPAID",
+      "createdAt": "2026-09-21T09:45:04.052Z",
+      "updatedAt": "2026-09-21T09:45:04.052Z"
     }
   ],
   "billItems": [
     {
-      "id": "bitem_1789914422732_nbqa",
-      "billId": "bill_1789914422732_6bbi",
+      "id": "bitem_1789983904052_qic2",
+      "billId": "bill_1789983904052_kudu",
       "menuItemId": "menu-margherita",
       "name": "Artisan Wood-Fired Margherita",
       "quantity": 2,
@@ -416,8 +416,8 @@
       "totalPrice": 600
     },
     {
-      "id": "bitem_1789914422732_zghf",
-      "billId": "bill_1789914422732_6bbi",
+      "id": "bitem_1789983904052_3k03",
+      "billId": "bill_1789983904052_kudu",
       "menuItemId": "menu-coke",
       "name": "Chilled Coca Cola",
       "quantity": 2,
@@ -426,27 +426,6 @@
     }
   ],
   "billAdjustments": [],
-  "payments": [
-    {
-      "id": "pay_1789914441222_wcjp",
-      "billId": "bill_1789914422732_6bbi",
-      "amount": 798,
-      "method": "UPI",
-      "referenceNumber": "UPI-441222",
-      "receivedByUserId": "Manager",
-      "status": "SUCCESS",
-      "createdAt": "2026-09-20T14:27:21.222Z"
-    }
-  ],
-  "auditLogs": [
-    {
-      "id": "audit_1789914441254_qhbd",
-      "restaurantId": "rest-bistro-01",
-      "branchId": "branch-downtown-01",
-      "userId": "Manager",
-      "action": "PAYMENT_RECEIVED",
-      "detailsJson": "{\"invoiceNumber\":\"INV-420643\",\"amount\":798,\"method\":\"UPI\",\"table\":\"Table 15\"}",
-      "createdAt": "2026-09-20T14:27:21.254Z"
-    }
-  ]
+  "payments": [],
+  "auditLogs": []
 }

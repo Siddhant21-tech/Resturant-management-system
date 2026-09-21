@@ -153,6 +153,7 @@ export async function adjustBill(
     type?: string;
     reason: string;
     discountAmount?: number;
+    discountPercent?: number;
     taxRate?: number;
     modifiedItems?: any[];
     userId?: string;

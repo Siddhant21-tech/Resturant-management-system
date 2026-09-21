@@ -22,12 +22,39 @@ export function getSocket(): Socket {
   return socket;
 }
 
+// Reusable singleton AudioContext
+let sharedAudioCtx: AudioContext | null = null;
+let lastSoundPlayTime = 0;
+const SOUND_THROTTLE_MS = 120;
+
+function getAudioContext(): AudioContext | null {
+  try {
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContextClass) return null;
+    if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
+      sharedAudioCtx = new AudioContextClass();
+    }
+    if (sharedAudioCtx.state === 'suspended') {
+      sharedAudioCtx.resume().catch(() => {});
+    }
+    return sharedAudioCtx;
+  } catch {
+    return null;
+  }
+}
+
 // Synthesize pleasant restaurant chimes using HTML5 Web Audio API
 export function playNotificationSound(type: 'kitchen_order' | 'item_ready' | 'bill_request' | 'payment_success') {
   try {
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
+    const now = Date.now();
+    // Throttle audio to avoid speaker blast/clipping during rapid bursts of concurrent orders
+    if (now - lastSoundPlayTime < SOUND_THROTTLE_MS) {
+      return;
+    }
+    lastSoundPlayTime = now;
+
+    const ctx = getAudioContext();
+    if (!ctx) return;
 
     if (type === 'kitchen_order') {
       // Urgent double ding for new kitchen ticket

@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import {
-  QrCode,
-  ShoppingBag,
-  Sparkles,
-  Utensils,
-  Plus,
-  Minus,
-  CheckCircle,
-  Clock,
-  Send,
-  Flame,
-} from 'lucide-react';
+import { Flame, Send } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Table, MenuItem, MenuCategory, DiningSession } from '../types';
-import { fetchTables, fetchMenu, submitOrderRound, requestBill } from '../services/api';
+import { Table, MenuItem, MenuCategory } from '../types';
+import { fetchTables, fetchMenu, submitOrderRound } from '../services/api';
 
 interface CustomerQRViewProps {
   branchId: string;
   onRefreshTrigger?: () => void;
+}
+
+interface CartItem {
+  menuItem: MenuItem;
+  quantity: number;
 }
 
 export const CustomerQRView: React.FC<CustomerQRViewProps> = ({ branchId, onRefreshTrigger }) => {
@@ -25,8 +19,8 @@ export const CustomerQRView: React.FC<CustomerQRViewProps> = ({ branchId, onRefr
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
   const [menuCategories, setMenuCategories] = useState<MenuCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [cart, setCart] = useState<{ menuItem: MenuItem; quantity: number }[]>([]);
-  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [, setOrderPlaced] = useState(false);
   const [specialInstructions, setSpecialInstructions] = useState('');
 
   const loadData = async () => {
@@ -38,9 +32,11 @@ export const CustomerQRView: React.FC<CustomerQRViewProps> = ({ branchId, onRefr
       setTables(tableList);
       setMenuCategories(menuList);
 
-      // Default to Table 15 as in user's prompt
+      // Default to Table 15 or first table
       const t15 = tableList.find((t: Table) => t.number === 'Table 15') || tableList[0];
-      setSelectedTable(t15);
+      setSelectedTable((prev) =>
+        prev ? tableList.find((t: Table) => t.id === prev.id) || t15 : t15
+      );
     } catch (err) {
       console.error('Error loading customer menu:', err);
     }
@@ -72,7 +68,7 @@ export const CustomerQRView: React.FC<CustomerQRViewProps> = ({ branchId, onRefr
           }
           return i;
         })
-        .filter(Boolean) as any
+        .filter(Boolean) as CartItem[]
     );
   };
 
@@ -300,7 +296,7 @@ export const CustomerQRView: React.FC<CustomerQRViewProps> = ({ branchId, onRefr
 
             <button
               onClick={handleSubmitCustomerOrder}
-              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-xs shadow-lg shadow-orange-500/20 hover:brightness-110 flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-xs shadow-lg shadow-orange-500/20 hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
             >
               <Send className="w-3.5 h-3.5" />
               <span>Send Order to Restaurant Kitchen</span>

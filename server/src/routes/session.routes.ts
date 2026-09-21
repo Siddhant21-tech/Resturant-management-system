@@ -54,6 +54,10 @@ sessionRouter.post('/sessions', async (req, res) => {
       },
     });
 
+    if (!session) {
+      return res.status(500).json({ error: 'Failed to create dining session' });
+    }
+
     // Update table status
     await prisma.table.update({
       where: { id: tableId },
@@ -140,7 +144,7 @@ sessionRouter.post('/sessions/:id/request-bill', async (req, res) => {
     emitToBranch(session.branchId, 'bill:requested', {
       sessionId: session.id,
       tableId: session.tableId,
-      tableNumber: session.table.number,
+      tableNumber: session.table?.number || 'Table ?',
       sessionCode: session.sessionCode,
     });
 
